@@ -1,12 +1,14 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import "@expo/metro-runtime";
 
-const index = () => {
+
+const history = () => {
   return (
     <View>
-      <Text>index</Text>
+      <Text>history</Text>
     </View>
   )
 }
 
-export default index
+export default history
