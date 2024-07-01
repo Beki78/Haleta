@@ -53,7 +53,7 @@ const Slide = ({ item }) => {
       <Text className="text-[#3E4958] text-center font-bold text-xl mt-7">
         {item.title}
       </Text>
-      <Text className="text-[#3E4958] text-center px-4" style={{ width }}>
+    <Text className="text-[#3E4958] text-center px-4" style={{ width }}>
         {item.description}
       </Text>
     </View>

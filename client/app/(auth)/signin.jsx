@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../../assets/images/svg/logo.png";
 import FormField from "../../components/FormField";
 import Button from "../../components/Button";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import "@expo/metro-runtime";
 
 const signin = () => {
@@ -17,7 +17,11 @@ const signin = () => {
         </Text>
         <FormField heading={"Phone"} placeholder={"Phone Number"} />
         <FormField heading={"Password"} placeholder={"Password"} />
-        <Button title={"Sign In"} style={"mb-0"} />
+        <Button
+          title={"Sign In"}
+          style={"mb-0"}
+          handlePress={() => router.push("/home")}
+        />
         <View className="justify-center gap-2  flex-row">
           <Text className="text-lg text-[#7b7b8b]">Don't have an account?</Text>
           <Link href="/signup" className="text-lg text-[#3E4958]">
@@ -25,7 +29,7 @@ const signin = () => {
           </Link>
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaView> 
   );
 };
 
