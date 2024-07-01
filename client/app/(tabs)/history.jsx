@@ -3,7 +3,7 @@ import React from 'react'
 import "@expo/metro-runtime";
 
 
-const history = () => {
+const History = () => {
   return (
     <View>
       <Text>history</Text>
@@ -11,4 +11,4 @@ const history = () => {
   )
 }
 
-export default history
+export default History;

@@ -15,7 +15,6 @@ import Logo2 from "../assets/images/svg/undraw_my_location_re_r52x.png";
 import Button from "../components/Button";
 import "@expo/metro-runtime";
 
-
 const onboardingData = [
   {
     id: 1,
@@ -53,7 +52,7 @@ const Slide = ({ item }) => {
       <Text className="text-[#3E4958] text-center font-bold text-xl mt-7">
         {item.title}
       </Text>
-    <Text className="text-[#3E4958] text-center px-4" style={{ width }}>
+      <Text className="text-[#3E4958] text-center px-4" style={{ width }}>
         {item.description}
       </Text>
     </View>
@@ -87,7 +86,7 @@ const Footer = ({ currentIndex }) => {
   );
 };
 
-const index = () => {
+const Main = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
 
@@ -125,11 +124,10 @@ const index = () => {
       <Button
         title={"Continue"}
         style={"mb-32"}
-        handlePress={() => router.push("/signin")}
-        
+        handlePress={() => router.push("signin")}
       />
     </SafeAreaView>
   );
 };
 
-export default index;
+export default Main;

@@ -1,18 +1,17 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text } from "react-native";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import "@expo/metro-runtime";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-
-
-const home = () => {
+const Home = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>homeds</Text>
+        <Text></Text>
       </View>
     </SafeAreaView>
   );
-}
+};
 
-export default home
+export default Home;
