@@ -15,10 +15,10 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import Filter from "../../components/Filter";
 import { Entypo } from "@expo/vector-icons";
+import {router} from "expo-router"
 import Image1 from "../../assets/images/svg/jose-de-azpiazu-Fz4bjB8LdT4-unsplash.jpg";
 import Image2 from "../../assets/images/svg/lalithmalhaar-gudi-T1C9zpFpky4-unsplash.jpg";
 import Image3 from "../../assets/images/svg/mikita-yo-UC9s2TkvN1Y-unsplash.jpg";
-import Image4 from "../../assets/images/svg/Modern_Green_Health_Care_Medical_Center_Logo-removebg-preview.png";
 
 const DATA = [
   {
@@ -80,9 +80,9 @@ const DATA = [
 ];
 
 const { width, height } = Dimensions.get("window");
-const Item = ({ hospital, phone, money, image }) => {
+const Item = ({ hospital, phone, money, image, handlePress }) => {
   return (
-    <TouchableOpacity
+    <TouchableOpacity onPress={handlePress}
       activeOpacity={0.9}
       className="shadow-sm shadow-slate-400 m-1 flex-1 rounded-md"
     >
@@ -152,6 +152,7 @@ const Home = () => {
             phone={item.phone}
             money={item.money}
             image={item.image}
+            handlePress={() => router.push("detail/more")}
           />
         )}
         keyExtractor={(item) => item.id}

@@ -4,6 +4,7 @@ import "@expo/metro-runtime";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const DATA = [
   {
@@ -38,7 +39,7 @@ const HistoryList = ({
   isCancelled,
 }) => {
   return (
-    <TouchableOpacity className=" mx-4 p-6 rounded-md shadow-sm shadow-slate-500 mb-5">
+    <TouchableOpacity onPress={() => router.push("More")} className=" mx-4 p-6 rounded-md shadow-sm shadow-slate-500 mb-5">
       <View className="flex justify-between flex-row">
         <View className="flex flex-row gap-3 ">
           <Text className="text-[#3E4958] font-bold">{date}</Text>
