@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import "@expo/metro-runtime";
 import Logo from "../assets/images/svg/logo.png";
 
@@ -31,7 +31,9 @@ const RootLayout = () => {
               <TouchableOpacity>
                 <FontAwesome name="bell-o" size={24} color="#72B4BE" />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.push("profile/UserProfile")}
+              >
                 <FontAwesome name="user-circle-o" size={24} color="#72B4BE" />
               </TouchableOpacity>
             </View>
