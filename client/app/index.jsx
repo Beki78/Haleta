@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../assets/images/svg/undraw_reminders_re_gtyb.png";
 import Logo1 from "../assets/images/svg/undraw_booking_re_gw4j.png";
 import Logo2 from "../assets/images/svg/undraw_my_location_re_r52x.png";
-import Button from "../components/Button";
+import Button from "../components/Button"
 import "@expo/metro-runtime";
 
 const onboardingData = [

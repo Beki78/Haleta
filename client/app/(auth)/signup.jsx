@@ -4,8 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../../assets/images/svg/logo.png";
 import FormField from "../../components/FormField";
 import Button from "../../components/Button";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import "@expo/metro-runtime";
+import createUser from "../../lib/appwrite"
+
+const submit = () =>{
+  // createUser()
+  router.push("otp/Otp")
+}
 
 const signup = () => {
   return (
@@ -15,10 +21,14 @@ const signup = () => {
         <Text className="text-2xl text-[#3E4958] font-bold my-4">
           Sign Up to Haleta
         </Text>
-        <FormField heading={"Name"} placeholder={"Full Name"} />
-        <FormField heading={"Phone"} placeholder={"Phone Number"} />
-        <FormField heading={"Password"} placeholder={"Password"} />
-        <Button title={"Sign Up"} style={"mb-0"} />
+        <FormField heading={"Name"} placeholder={"Full Name"} autoComplete={"name"}/>
+        <FormField heading={"Phone"} placeholder={"Phone Number"} autoComplete={"tel"}/>
+        <FormField heading={"Password"} placeholder={"Password"} autoComplete={""}/>
+        <Button
+          title={"Sign Up"}
+          style={"mb-0"}
+          handlePress={submit}
+        />
         <View className="justify-center gap-2  flex-row">
           <Text className="text-lg text-[#7b7b8b]">Don't have an account?</Text>
           <Link href="/signin" className="text-lg text-[#3E4958]">

@@ -3,13 +3,13 @@ import React from "react";
 import "@expo/metro-runtime";
 
 
-const FormField = ({ heading, placeholder }) => {
+const FormField = ({ heading, placeholder, autoComplete }) => {
   return (
     <View className="">
       <Text className="text-lg font-semibold text-[#3E4958]">{heading}</Text>
       <View className="bg-[#F7F8F9] rounded-xl h-14 mb-6">
         <TextInput
-          autoComplete="email"
+          autoComplete={autoComplete}
           placeholder={placeholder}
           placeholderTextColor="#7b7b8b"
           autoCapitalize="word"

@@ -15,8 +15,8 @@ const signin = () => {
         <Text className="text-2xl text-[#3E4958] font-bold my-4">
           Sign In to Haleta
         </Text>
-        <FormField heading={"Phone"} placeholder={"Phone Number"} />
-        <FormField heading={"Password"} placeholder={"Password"} />
+        <FormField heading={"Phone"} placeholder={"Phone Number"}  autoComplete={"tel"}/>
+        <FormField heading={"Password"} placeholder={"Password"}  autoComplete={""}/>
         <Button
           title={"Sign In"}
           style={"mb-0"}
@@ -25,7 +25,7 @@ const signin = () => {
         <View className="justify-center gap-2  flex-row">
           <Text className="text-lg text-[#7b7b8b]">Don't have an account?</Text>
           <Link href="/signup" className="text-lg text-[#3E4958]">
-            Sign In
+            Sign Up
           </Link>
         </View>
       </View>
