@@ -6,14 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Otp = () => {
   return (
     <SafeAreaView>
-      <View className="h-full mt-[20%]">
+      <View className="h-full mt-[20%] mx-3">
         <Text className="text-center text-2xl font-bold">
           Enter Verification Code
         </Text>
         <Text className="text-center mb-3">
           We are automatically detecting SMS to send to your mobile number
         </Text>
-        <View className="mx-20">
+        <View className="mx-3">
           <OtpInput
             numberOfDigits={6}
             focusColor={"#72B4BE"}

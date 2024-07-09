@@ -39,7 +39,7 @@ const HistoryList = ({
   isCancelled,
 }) => {
   return (
-    <TouchableOpacity onPress={() => router.push("More")} className=" mx-4 p-6 rounded-md shadow-sm shadow-slate-500 mb-5">
+    <View onPress={() => router.push("More")} className=" mx-4 p-6 rounded-md shadow-sm shadow-slate-500 mb-5">
       <View className="flex justify-between flex-row">
         <View className="flex flex-row gap-3 ">
           <Text className="text-[#3E4958] font-bold">{date}</Text>
@@ -74,7 +74,7 @@ const HistoryList = ({
           <Text className="text-gray-600 ">{to}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

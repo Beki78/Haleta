@@ -120,7 +120,7 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
 
 const Home = () => {
   return (
-    <SafeAreaView className="mx-8">
+    <SafeAreaView className="mx-3">
       <View>
         <View className="flex flex-row gap-12 items-center">
           <View className="border-[1px]  border-[#72B4BE] flex-[10]  flex flex-row p-2 rounded-md">
