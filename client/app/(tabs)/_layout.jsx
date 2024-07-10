@@ -6,7 +6,12 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const TabsLayout = () => {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "#000", tabBarLabelStyle: {fontSize: 13} }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "#000",
+        tabBarLabelStyle: { fontSize: 13 },
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{

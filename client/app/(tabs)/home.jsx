@@ -24,67 +24,236 @@ const DATA = [
   {
     id: 1,
     image: Image1,
-    hospital: "Black Lion ",
+    hospital: "Black Lion",
     phone: "0909890837",
     money: "234",
   },
   {
     id: 2,
     image: Image2,
-    hospital: "Black Lion",
-    phone: "0909890837",
-    money: "234",
+    hospital: "Kadisco General Hospital",
+    phone: "0911223344",
+    money: "300",
   },
   {
     id: 3,
     image: Image3,
-    hospital: "Black Lion",
-    phone: "0909890837",
-    money: "234",
+    hospital: "Hamlin Fistula Hospital",
+    phone: "0911334455",
+    money: "320",
   },
   {
     id: 4,
-    image: Image3,
-    hospital: "Black Lion",
-    phone: "0909890837",
-    money: "234",
+    image: Image1,
+    hospital: "St. Peter’s Specialized Hospital",
+    phone: "0912445566",
+    money: "280",
   },
   {
     id: 5,
-    image: Image1,
-    hospital: "Black Lion",
-    phone: "0909890837",
-    money: "234",
+    image: Image2,
+    hospital: "Alert Hospital",
+    phone: "0912556677",
+    money: "290",
   },
   {
     id: 6,
-    image: Image2,
-    hospital: "Black Lion",
-    phone: "0909890837",
-    money: "234",
+    image: Image3,
+    hospital: "Amin General Hospital",
+    phone: "0912667788",
+    money: "310",
   },
   {
     id: 7,
     image: Image1,
-    hospital: "Black Lion",
-    phone: "0909890837",
-    money: "234",
+    hospital: "Addis General Hospital",
+    phone: "0912778899",
+    money: "270",
   },
   {
     id: 8,
+    image: Image2,
+    hospital: "Addis Hiwot General Hospital",
+    phone: "0912889900",
+    money: "260",
+  },
+  {
+    id: 9,
+    image: Image3,
+    hospital: "Nordic Medical Centre",
+    phone: "0912990011",
+    money: "320",
+  },
+  {
+    id: 10,
     image: Image1,
-    hospital: "Black Lion",
-    phone: "0909890837",
-    money: "234",
+    hospital: "Anania Mothers & Children Specialized Medical Center",
+    phone: "0913001122",
+    money: "330",
+  },
+  {
+    id: 11,
+    image: Image2,
+    hospital: "Betsegah Hospital",
+    phone: "0913112233",
+    money: "310",
+  },
+  {
+    id: 12,
+    image: Image3,
+    hospital: "Landmark General Hospital",
+    phone: "0913223344",
+    money: "300",
+  },
+  {
+    id: 13,
+    image: Image1,
+    hospital: "Menelik Hospital",
+    phone: "0913334455",
+    money: "270",
+  },
+  {
+    id: 14,
+    image: Image2,
+    hospital: "Balcha Hospital",
+    phone: "0913445566",
+    money: "290",
+  },
+  {
+    id: 15,
+    image: Image3,
+    hospital: "Ethio Tebib General Hospital",
+    phone: "0913556677",
+    money: "280",
+  },
+  {
+    id: 16,
+    image: Image1,
+    hospital: "Girum Hospital",
+    phone: "0913667788",
+    money: "300",
+  },
+  {
+    id: 17,
+    image: Image2,
+    hospital: "Alatyon Primary Hospital",
+    phone: "0913778899",
+    money: "310",
+  },
+  {
+    id: 18,
+    image: Image3,
+    hospital: "Hayat Hospital",
+    phone: "0913889900",
+    money: "320",
+  },
+  {
+    id: 19,
+    image: Image1,
+    hospital: "Hallelujah General Hospital",
+    phone: "0913990011",
+    money: "330",
+  },
+  {
+    id: 20,
+    image: Image2,
+    hospital: "iCMC General Hospital",
+    phone: "0914001122",
+    money: "300",
+  },
+  {
+    id: 21,
+    image: Image3,
+    hospital: "Myung Sung Christian Medical Center",
+    phone: "0914112233",
+    money: "310",
+  },
+  {
+    id: 22,
+    image: Image1,
+    hospital: "Saint Gabriel General Hospital",
+    phone: "0914223344",
+    money: "320",
+  },
+  {
+    id: 23,
+    image: Image2,
+    hospital: "St. Paul’s Hospital Millennium Medical College",
+    phone: "0914334455",
+    money: "290",
+  },
+  {
+    id: 24,
+    image: Image3,
+    hospital: "American Medical Center",
+    phone: "0914445566",
+    money: "280",
+  },
+  {
+    id: 25,
+    image: Image1,
+    hospital: "Tikur Anbessa Specialized Hospital (TASH)",
+    phone: "0914556677",
+    money: "310",
+  },
+  {
+    id: 26,
+    image: Image2,
+    hospital: "Tirunesh Beijing General Hospital",
+    phone: "0914667788",
+    money: "320",
+  },
+  {
+    id: 27,
+    image: Image3,
+    hospital: "TZNA General Hospital",
+    phone: "0914778899",
+    money: "300",
+  },
+  {
+    id: 28,
+    image: Image1,
+    hospital: "Zewditu Memorial Hospital",
+    phone: "0914889900",
+    money: "310",
+  },
+  {
+    id: 29,
+    image: Image2,
+    hospital: "Bethzatha General Hospital",
+    phone: "0914990011",
+    money: "330",
+  },
+  {
+    id: 30,
+    image: Image3,
+    hospital: "International Clinical Laboratories – ICL",
+    phone: "0915001122",
+    money: "290",
+  },
+  {
+    id: 31,
+    image: Image1,
+    hospital: "Pioneer Diagnostic Center",
+    phone: "0915112233",
+    money: "280",
+  },
+  {
+    id: 32,
+    image: Image2,
+    hospital: "Washington Medical Center Addis Ababa",
+    phone: "0915223344",
+    money: "300",
   },
 ];
+
 
 const { width, height } = Dimensions.get("window");
 const Item = ({ hospital, phone, money, image, handlePress }) => {
   return (
     <TouchableOpacity onPress={handlePress}
       activeOpacity={0.9}
-      className="shadow-sm shadow-slate-400 m-1 flex-1 rounded-md"
+      className="shadow-sm shadow-slate-200 bg-white m-1 flex-1 rounded-md "
     >
       <Image
         source={image}
@@ -93,9 +262,9 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
       />
       <View className="">
         <View className="bg-green-500 w-2 h-2 rounded-full absolute right-3 top-2 animation"></View>
-        <View className="p-5 flex justify-start items-start ">
+        <View className="p-2 py-4 flex justify-start items-start ">
           <View className="flex flex-row  items-center">
-            <Entypo name="location-pin" size={26} color="#72B4BE" />
+            <Entypo name="location-pin" size={24} color="#72B4BE" />
             <Text
               numberOfLines={1}
               ellipsize={"tail"}
@@ -105,11 +274,11 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
             </Text>
           </View>
           <View className="flex flex-row items-center ">
-            <FontAwesome name="phone" size={24} color="#72B4BE" />
+            <FontAwesome name="phone" size={20} color="#72B4BE" />
             <Text className="ml-5  text-gray-600">{phone}</Text>
           </View>
           <View className="flex flex-row items-center ">
-            <FontAwesome className="" name="money" size={20} color="#72B4BE" />
+            <FontAwesome className="" name="money" size={18} color="#72B4BE" />
             <Text className="ml-4 text-gray-600">{money} ETB</Text>
           </View>
         </View>
@@ -145,7 +314,7 @@ const Home = () => {
       <FlatList
         data={DATA}
         numColumns={2}
-        className="mb-40"
+        className=""
         renderItem={({ item }) => (
           <Item
             hospital={item.hospital}
