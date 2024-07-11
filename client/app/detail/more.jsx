@@ -1,13 +1,21 @@
-import { View, Text, TouchableOpacity, Image, FlatList, StyleSheet } from 'react-native'
-import React from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  StyleSheet,
+} from "react-native";
+import React, { useRef } from "react";
 import Image1 from "../../assets/images/svg/jose-de-azpiazu-Fz4bjB8LdT4-unsplash.jpg";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import Button from '../../components/Button';
-
-
+import Button from "../../components/Button";
+import CustomActionSheet from "../../components/ActionSheet";
+import RBSheet from "react-native-raw-bottom-sheet";
+import ActionSheet from "../../components/ActionSheet";
 
 const DATA = [
   {
@@ -17,7 +25,6 @@ const DATA = [
     phone: "0909890837",
     money: "234",
   },
- 
 ];
 
 const INITIAL_REGION = {
@@ -66,9 +73,15 @@ const Item = ({ hospital, phone, money, image }) => {
 };
 
 const More = () => {
+  const bottomSheetRef = useRef();
+
+  const openModal = () => {
+    bottomSheetRef.current?.expand();
+  };
+
   return (
     <>
-      <FlatList
+      {/* <FlatList
         data={DATA}
         
         className="pb-32  pt-4 h-0 "
@@ -81,21 +94,54 @@ const More = () => {
           />
         )}
         keyExtractor={(item) => item.id}
+      /> */}
+
+      <MapView
+        // style={StyleSheet.absoluteFill}
+        className=" h-80"
+        provider={PROVIDER_GOOGLE}
+        initialRegion={INITIAL_REGION}
       />
-      <View className="flex-[2] mx-6 mt-5">
-        <MapView
-          style={StyleSheet.absoluteFill}
-          className=" h-80"
-          provider={PROVIDER_GOOGLE}
-          initialRegion={INITIAL_REGION}
+      <View>
+        <View className="flex flex-row gap-4 ml-4 mt-4">
+          <FontAwesome name="phone" size={32} color="#72B4BE" />
+          <Text className="text-lg">0998765476</Text>
+        </View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderColor: "#D5DDE0",
+            marginVertical: 10,
+          }}
+        />
+        <View className="flex flex-row gap-4 ml-4 mt-4">
+          <FontAwesome name="phone" size={32} color="#72B4BE" />
+          <Text className="text-lg">0998765476</Text>
+        </View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderColor: "#D5DDE0",
+            marginVertical: 10,
+          }}
+        />
+        <View className="flex flex-row gap-4 ml-4 mt-4">
+          <FontAwesome name="phone" size={32} color="#72B4BE" />
+          <Text className="text-lg">0998765476</Text>
+        </View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderColor: "#D5DDE0",
+            marginVertical: 10,
+          }}
         />
       </View>
-      <Button
-        title={"Book Now"}
-        handlePress={() => alert("Are you sure do you want to book?")}
-      />
+
+      <Button title={"Book Now"} handlePress={openModal} />
+      <ActionSheet bottomSheetRef={bottomSheetRef} />
     </>
   );
-}
+};
 
-export default More
+export default More;
