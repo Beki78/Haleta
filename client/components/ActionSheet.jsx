@@ -3,7 +3,7 @@ import {
   Text,
   TouchableOpacity,
   Linking,
-  Button,
+
   StyleSheet,
 } from "react-native";
 import BottomSheet, {
@@ -11,6 +11,9 @@ import BottomSheet, {
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { useCallback, useEffect, useMemo, useState } from "react";
+
+import RadioGroup from "react-native-radio-buttons-group";
+import Button from "./Button";
 
 const ActionSheet = ({ bottomSheetRef }) => {
   const [isOpen, setIsOpen] = useState(false); // Track bottom sheet state
@@ -20,6 +23,16 @@ const ActionSheet = ({ bottomSheetRef }) => {
   const openModal = () => {
     setIsOpen(false); // Close the bottom sheet
   };
+
+  const [isPregnant, setIsPregnant] = useState(false); // Yes/No for pregnancy
+  const [needsAmbulance, setNeedsAmbulance] = useState(false); // Yes/No for ambulance
+  const [damageLevel, setDamageLevel] = useState(""); // Hard, Medium, Low
+  const [paymentMethod, setPaymentMethod] = useState(""); // Payment method selection
+
+  const handlePregnancySelection = (value) => setIsPregnant(value);
+  const handleAmbulanceSelection = (value) => setNeedsAmbulance(value);
+  const handleDamageSelection = (value) => setDamageLevel(value);
+  const handlePaymentSelection = (value) => setPaymentMethod(value);
 
   const renderBackdrop = useCallback(
     (props) => (
@@ -38,7 +51,39 @@ const ActionSheet = ({ bottomSheetRef }) => {
       setIsOpen(false); // Close the bottom sheet on initial mount
     }
   }, []); // Empty dependency array to run only once
+  const radioButtons = useMemo(
+    () => [
+      {
+        id: "1", // acts as primary key, should be unique and non-empty string
+        label: "Yes",
+        value: "yes",
+      },
+      {
+        id: "2",
+        label: "No",
+        value: "no",
+      },
+    ],
+    []
+  );
+  const emergencybutton = useMemo(
+    () => [
+      {
+        id: "1", // acts as primary key, should be unique and non-empty string
+        label: "Yes",
+        value: "yes",
+      },
+      {
+        id: "2",
+        label: "No",
+        value: "no",
+      },
+    ],
+    []
+  );
 
+  const [selectedId, setSelectedId] = useState();
+  const [emergency, setEmergency] = useState();
   return (
     <BottomSheet
       style={styles.container}
@@ -49,7 +94,32 @@ const ActionSheet = ({ bottomSheetRef }) => {
       backdropComponent={renderBackdrop}
     >
       <View>
-        <Text>Hello there!</Text>
+        <Text>Emergency Information</Text>
+      </View>
+      <View>
+        <View>
+          <Text>Are you pregnant?</Text>
+          <View>
+            <RadioGroup
+              radioButtons={radioButtons}
+              onPress={setSelectedId}
+              selectedId={selectedId}
+              layout="row"
+            />
+          </View>
+        </View>
+        <View>
+          <Text>Are you pregnant?</Text>
+          <View>
+            <RadioGroup
+              radioButtons={emergencybutton}
+              onPress={setEmergency}
+              selectedId={emergency}
+              layout="row"
+            />
+          </View>
+        </View>
+        <Button title={"Book"}/>
       </View>
     </BottomSheet>
   );
