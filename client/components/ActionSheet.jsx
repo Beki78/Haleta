@@ -3,7 +3,6 @@ import {
   Text,
   TouchableOpacity,
   Linking,
-
   StyleSheet,
 } from "react-native";
 import BottomSheet, {
@@ -18,7 +17,7 @@ import Button from "./Button";
 const ActionSheet = ({ bottomSheetRef }) => {
   const [isOpen, setIsOpen] = useState(false); // Track bottom sheet state
 
-  const snapPoints = useMemo(() => ["70%"], []);
+  const snapPoints = useMemo(() => ["55%"], []);
 
   const openModal = () => {
     setIsOpen(false); // Close the bottom sheet
@@ -66,24 +65,45 @@ const ActionSheet = ({ bottomSheetRef }) => {
     ],
     []
   );
-  const emergencybutton = useMemo(
+  const damagelevel = useMemo(
     () => [
       {
         id: "1", // acts as primary key, should be unique and non-empty string
-        label: "Yes",
-        value: "yes",
+        label: "Samll",
+        value: "small",
       },
       {
         id: "2",
-        label: "No",
-        value: "no",
+        label: "Medium",
+        value: "medium",
+      },
+      {
+        id: "3",
+        label: "Hard",
+        value: "hard",
       },
     ],
     []
   );
+   const emergencybutton = useMemo(
+     () => [
+       {
+         id: "1", // acts as primary key, should be unique and non-empty string
+         label: "Yes",
+         value: "yes",
+       },
+       {
+         id: "2",
+         label: "No",
+         value: "no",
+       },
+     ],
+     []
+   );
 
   const [selectedId, setSelectedId] = useState();
   const [emergency, setEmergency] = useState();
+  const [damage, setdamege] = useState();
   return (
     <BottomSheet
       style={styles.container}
@@ -94,33 +114,42 @@ const ActionSheet = ({ bottomSheetRef }) => {
       backdropComponent={renderBackdrop}
     >
       <View>
-        <Text>Emergency Information</Text>
+        <Text className="text-center text-xl">Emergency Information</Text>
       </View>
-      <View>
+      <View className="flex flex-col justify-between px-4 gap-y-3 mt-4">
         <View>
-          <Text>Are you pregnant?</Text>
-          <View>
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={setSelectedId}
-              selectedId={selectedId}
-              layout="row"
-            />
-          </View>
+          <Text className="text-base">Are you pregnant lady?</Text>
+
+          <RadioGroup
+            radioButtons={radioButtons}
+            onPress={setSelectedId}
+            selectedId={selectedId}
+            layout="row"
+          />
         </View>
         <View>
-          <Text>Are you pregnant?</Text>
-          <View>
-            <RadioGroup
-              radioButtons={emergencybutton}
-              onPress={setEmergency}
-              selectedId={emergency}
-              layout="row"
-            />
-          </View>
+          <Text className="text-base">Is it emergency?</Text>
+
+          <RadioGroup
+            radioButtons={emergencybutton}
+            onPress={setEmergency}
+            selectedId={emergency}
+            layout="row"
+          />
         </View>
-        <Button title={"Book"}/>
+        <View>
+          <Text>What is the damage level?</Text>
+
+          <RadioGroup
+            radioButtons={damagelevel}
+            onPress={setdamege}
+            selectedId={damage}
+            layout="row"
+          />
+        </View>
       </View>
+
+      <Button title={"Book"} />
     </BottomSheet>
   );
 };

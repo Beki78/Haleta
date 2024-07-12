@@ -6,7 +6,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../assets/images/svg/undraw_reminders_re_gtyb.png";
@@ -14,6 +14,8 @@ import Logo1 from "../assets/images/svg/undraw_booking_re_gw4j.png";
 import Logo2 from "../assets/images/svg/undraw_my_location_re_r52x.png";
 import Button from "../components/Button"
 import "@expo/metro-runtime";
+
+import * as Location from "expo-location";
 
 const onboardingData = [
   {
@@ -87,8 +89,24 @@ const Footer = ({ currentIndex }) => {
 };
 
 const Main = () => {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
+
+   useEffect(() => {
+     (async () => {
+       let { status } = await Location.requestForegroundPermissionsAsync();
+       if (status !== "granted") {
+         setErrorMsg("Permission to access location was denied");
+         console.log(setErrorMsg);
+         return;
+       }
+
+       let location = await Location.getCurrentPositionAsync({});
+       setLocation(location);
+     })();
+   }, []);
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -126,6 +144,7 @@ const Main = () => {
         style={"mb-32"}
         handlePress={() => router.push("signin")}
       />
+     
     </SafeAreaView>
   );
 };

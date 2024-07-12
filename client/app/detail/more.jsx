@@ -115,6 +115,17 @@ const More = () => {
           }}
         />
         <View className="flex flex-row gap-4 ml-4 mt-4">
+          <Entypo name="location-pin" size={32} color="#72B4BE" />
+          <Text className="text-lg">Mexico</Text>
+        </View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderColor: "#D5DDE0",
+            marginVertical: 10,
+          }}
+        />
+        {/* <View className="flex flex-row gap-4 ml-4 mt-4">
           <FontAwesome name="phone" size={32} color="#72B4BE" />
           <Text className="text-lg">0998765476</Text>
         </View>
@@ -124,18 +135,7 @@ const More = () => {
             borderColor: "#D5DDE0",
             marginVertical: 10,
           }}
-        />
-        <View className="flex flex-row gap-4 ml-4 mt-4">
-          <FontAwesome name="phone" size={32} color="#72B4BE" />
-          <Text className="text-lg">0998765476</Text>
-        </View>
-        <View
-          style={{
-            borderBottomWidth: 1,
-            borderColor: "#D5DDE0",
-            marginVertical: 10,
-          }}
-        />
+        /> */}
       </View>
 
       <Button title={"Book Now"} handlePress={openModal} />
