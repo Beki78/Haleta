@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Linking,
   StyleSheet,
+  ToastAndroid,
 } from "react-native";
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -101,6 +102,11 @@ const ActionSheet = ({ bottomSheetRef }) => {
      []
    );
 
+   const exitBotomSheet = () => {
+    bottomSheetRef.current?.close()
+    ToastAndroid.show("Request sent successfully! The ambulance will arrive soon.", ToastAndroid.SHORT);
+   }
+
   const [selectedId, setSelectedId] = useState();
   const [emergency, setEmergency] = useState();
   const [damage, setdamege] = useState();
@@ -138,7 +144,7 @@ const ActionSheet = ({ bottomSheetRef }) => {
           />
         </View>
         <View>
-          <Text>What is the damage level?</Text>
+          <Text className="text-base">What is the damage level?</Text>
 
           <RadioGroup
             radioButtons={damagelevel}
@@ -149,7 +155,7 @@ const ActionSheet = ({ bottomSheetRef }) => {
         </View>
       </View>
 
-      <Button title={"Book"} />
+  <Button title={"Done"} handlePress={exitBotomSheet}/>
     </BottomSheet>
   );
 };

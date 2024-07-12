@@ -36,9 +36,9 @@ const TabsLayout = () => {
         name="setting"
         options={{
           headerShown: false,
-          title: "Setting",
+          title: "Profile",
           tabBarIcon: () => (
-            <FontAwesome name="gear" size={24} color="#72B4BE" />
+            <FontAwesome name="user-circle-o" size={24} color="#72B4BE" />
           ),
         }}
       />

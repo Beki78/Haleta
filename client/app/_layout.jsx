@@ -31,16 +31,10 @@ const RootLayout = () => {
             headerBackVisible: false,
             headerTitle: (props) => <LogoTitle {...props} />,
             headerRight: () => (
-              <View className="flex gap-4 flex-row">
                 <TouchableOpacity>
                   <FontAwesome name="bell-o" size={24} color="#72B4BE" />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => router.push("profile/UserProfile")}
-                >
-                  <FontAwesome name="user-circle-o" size={24} color="#72B4BE" />
-                </TouchableOpacity>
-              </View>
+               
             ),
           }}
         />
