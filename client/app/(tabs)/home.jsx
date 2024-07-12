@@ -314,7 +314,7 @@ const Home = () => {
       <FlatList
         data={DATA}
         numColumns={2}
-        className=""
+        className="h-[86%]"
         renderItem={({ item }) => (
           <Item
             hospital={item.hospital}

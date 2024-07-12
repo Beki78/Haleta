@@ -15,8 +15,18 @@ const signin = () => {
         <Text className="text-2xl text-[#3E4958] font-bold my-4">
           Sign In to Haleta
         </Text>
-        <FormField heading={"Phone"} placeholder={"Phone Number"}  autoComplete={"tel"}/>
-        <FormField heading={"Password"} placeholder={"Password"}  autoComplete={""}/>
+        <FormField
+          heading={"Phone"}
+          placeholder={"Phone Number"}
+          autoComplete={"tel"}
+          phoneCode={"yes"}
+          phoneFieldStyle={"flex flex-row justify-center items-center"}
+        />
+        <FormField
+          heading={"Password"}
+          placeholder={"Password"}
+          autoComplete={""}
+        />
         <Button
           title={"Sign In"}
           style={"mb-0"}
@@ -29,7 +39,7 @@ const signin = () => {
           </Link>
         </View>
       </View>
-    </SafeAreaView> 
+    </SafeAreaView>
   );
 };
 
