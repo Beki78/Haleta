@@ -6,19 +6,23 @@ import FormField from "../../components/FormField";
 import Button from "../../components/Button";
 import { Link, router } from "expo-router";
 import "@expo/metro-runtime";
-import createUser from "../../lib/appwrite"
+import createUser from "../../lib/appwrite";
+import test from "../../lib/appwrite.js";
 
-const submit = () => {
-
-  createUser("+251", +"978101611");
+const submit = (userPhonenumber) => {
+  console.log(userPhonenumber);
+  // createUser(userPhonenumber);
+  test()
   router.push("otp/Otp");
 };
 
 const Signup = () => {
-  const [userPhonenumber, setUserPhonenumber] = useState("")
-  const data = (e) => {
-    setUserPhonenumber(e.target.value);
-  }
+  const [userPhonenumber, setUserPhonenumber] = useState("");
+
+  const handlePhoneChange = (value) => {
+    setUserPhonenumber(value);
+  };
+
   return (
     <SafeAreaView className="h-full mx-6 ">
       <View className="min-h-[100vh] justify-center">
@@ -37,19 +41,23 @@ const Signup = () => {
           autoComplete={"tel"}
           phoneCode={"yes"}
           phoneFieldStyle={"flex flex-row justify-center items-center"}
+          state={handlePhoneChange}
+          value={userPhonenumber}
         />
         <FormField
           heading={"Password"}
           placeholder={"Password"}
           autoComplete={""}
-          state={data}
-          value={userPhonenumber}
         />
-        <Button title={"Sign Up"} style={"mb-0"} handlePress={submit} />
-        <View className="justify-center gap-2  flex-row">
+        <Button
+          title={"Sign Up"}
+          style={"mb-0"}
+          handlePress={() => submit(userPhonenumber)}
+        />
+        <View className="justify-center gap-2 flex-row">
           <Text className="text-lg text-[#7b7b8b]">Don't have an account?</Text>
           <Link href="/signin" className="text-lg text-[#3E4958]">
-            Sign In {userPhonenumber}
+            Sign In
           </Link>
         </View>
       </View>

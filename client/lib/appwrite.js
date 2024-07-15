@@ -11,20 +11,37 @@ export const config = {
 // Init your React Native SDK
 const client = new Client();
 
-client
-  .setEndpoint(config.endpoint) // Your Appwrite Endpoint
-  .setProject(config.projectId) // Your project ID
-  .setPlatform(config.platform); // Your application ID or bundle ID.
+// client
+//   .setEndpoint(config.endpoint) // Your Appwrite Endpoint
+//   .setProject(config.projectId) // Your project ID
+//   .setPlatform(config.platform); // Your application ID or bundle ID.
 
-export default createUser = async (code, phone) => {
-  const  phoneNo = code + phone
-  const account = new Account(client);
-try {
-   const token = await account.createPhoneToken(ID.unique(), phoneNo);
-   console.log("Success"); 
-} catch (error) {
-  console.log(error);
-}
+// export default createUser = async (phone) => {
+  
+// try {
+//   const phoneNo = "+251" + phone;
+//   const account = new Account(client);
+//    const token = await account.createPhoneToken(ID.unique(), phoneNo);
+//    console.log("Success"); 
+// } catch (error) {
+//   console.log(error);
+// }
 
-  const userId = token.userId;
-};
+//   const userId = token.userId;
+// };
+
+// const account = new Account(client);
+
+// export default test = () => {
+//   account.create(ID.unique(), "email1@example.com","password", "Beki")
+
+//  .then(
+//   function (response) {
+//     console.log(response); // Success
+//   },
+//   function (error) {
+//     console.log(error); // Failure
+//   }
+// );
+
+// }
