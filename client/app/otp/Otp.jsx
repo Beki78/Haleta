@@ -10,7 +10,7 @@ const Otp = () => {
         <Text className="text-center text-2xl font-bold">
           Enter Verification Code
         </Text>
-        <Text className="text-center mb-3">
+        <Text className="text-center text-base mb-3">
           We are automatically detecting SMS to send to your mobile number
         </Text>
         <View className="mx-3">

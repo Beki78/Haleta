@@ -120,7 +120,7 @@ const ActionSheet = ({ bottomSheetRef }) => {
       backdropComponent={renderBackdrop}
     >
       <View>
-        <Text className="text-center text-xl">Emergency Information</Text>
+        <Text className="text-center text-2xl font-bold underline">Emergency Information</Text>
       </View>
       <View className="flex flex-col justify-between px-4 gap-y-3 mt-4">
         <View>

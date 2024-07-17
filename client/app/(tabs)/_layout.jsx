@@ -33,7 +33,7 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="setting"
+        name="profile"
         options={{
           headerShown: false,
           title: "Profile",

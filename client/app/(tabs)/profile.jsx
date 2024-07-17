@@ -4,7 +4,7 @@ import Avatar from "../../assets/images/svg/avatar.png"
 import { Entypo, Octicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-const setting = () => {
+const Profile = () => {
   return (
     <>
       <Image
@@ -42,4 +42,4 @@ const setting = () => {
   );
 };
 
-export default setting;
+export default Profile;

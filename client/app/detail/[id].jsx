@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import Button from "../../components/Button";
 import ActionSheet from "../../components/ActionSheet";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -44,7 +44,22 @@ const More = () => {
 
   return (
     <>
-      <MapView className="h-80" provider={PROVIDER_GOOGLE} region={region} />
+      <MapView
+        style={{ flex: 1 }}
+        provider={PROVIDER_GOOGLE}
+        region={region}
+        showsUserLocation
+        showsMyLocationButton
+      >
+        <Marker
+          coordinate={{
+            latitude: parsedItem.latitude || INITIAL_REGION.latitude,
+            longitude: parsedItem.longitude || INITIAL_REGION.longitude,
+          }}
+          title={parsedItem.hospital}
+          description={`Phone: ${parsedItem.phone}, Cost: ${parsedItem.money} ETB`}
+        />
+      </MapView>
       <View>
         <View className="flex flex-row gap-4 ml-4 mt-4">
           <FontAwesome name="phone" size={32} color="#72B4BE" />

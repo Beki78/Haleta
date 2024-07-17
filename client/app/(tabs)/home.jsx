@@ -191,14 +191,14 @@ const Home = () => {
             activeStyle={isButtonActive === "All"}
           />
           <Filter
-            title="Near by"
-            buttonHandle={nearByHandle}
-            activeStyle={isButtonActive === "Near by"}
-          />
-          <Filter
             title="Low Cost"
             buttonHandle={lowcostHandle}
             activeStyle={isButtonActive === "Low Cost"}
+          />
+          <Filter
+            title="Near by"
+            buttonHandle={nearByHandle}
+            activeStyle={isButtonActive === "Near by"}
           />
         </ScrollView>
       </View>

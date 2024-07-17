@@ -12,10 +12,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../assets/images/svg/undraw_reminders_re_gtyb.png";
 import Logo1 from "../assets/images/svg/undraw_booking_re_gw4j.png";
 import Logo2 from "../assets/images/svg/undraw_my_location_re_r52x.png";
-import Button from "../components/Button"
+import Button from "../components/Button";
 import "@expo/metro-runtime";
-import { StatusBar } from 'expo-status-bar';
-
+import { StatusBar } from "expo-status-bar";
 
 const onboardingData = [
   {
@@ -89,11 +88,8 @@ const Footer = ({ currentIndex }) => {
 };
 
 const Main = () => {
-  
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
-
-  
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
