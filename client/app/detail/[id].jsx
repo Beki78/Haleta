@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -10,10 +10,11 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { useRouter, useLocalSearchParams } from "expo-router";
 
 const INITIAL_REGION = {
-  latitude: 9.0088,
-  longitude: 38.7666,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421,
+  latitude: 8.99561,
+  longitude: 38.8140149,
+  latitudeDelta: 0,
+  longitudeDelta: 0.001,
+  
 };
 
 const More = () => {
@@ -21,6 +22,21 @@ const More = () => {
   const { item } = useLocalSearchParams();
   const parsedItem = JSON.parse(item);
   const [region, setRegion] = useState(INITIAL_REGION);
+  const [parsedItems, setParsedItems] = useState(null);
+
+  useEffect(() => {
+    if (item) {
+      const parsed = JSON.parse(item);
+      setParsedItems(parsed);
+
+      setRegion({
+        latitude: parsed.latitude || INITIAL_REGION.latitude,
+        longitude: parsed.longitude || INITIAL_REGION.longitude,
+        latitudeDelta: INITIAL_REGION.latitudeDelta,
+        longitudeDelta: INITIAL_REGION.longitudeDelta,
+      });
+    }
+  }, [item]);
 
   const openModal = () => {
     bottomSheetRef.current?.expand();

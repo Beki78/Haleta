@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, ToastAndroid } from "react-native";
 import React from "react";
 import { Stack, router } from "expo-router";
 import "@expo/metro-runtime";
@@ -18,6 +18,12 @@ function LogoTitle() {
 }
 
 const RootLayout = () => {
+  const bellHandle = () => {
+    ToastAndroid.show(
+      "There is no notification yet!",
+      ToastAndroid.SHORT
+    );
+  }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack>
@@ -32,7 +38,7 @@ const RootLayout = () => {
             headerTitle: (props) => <LogoTitle {...props} />,
             headerRight: () => (
               <TouchableOpacity>
-                <FontAwesome name="bell-o" size={24} color="#72B4BE" />
+                <FontAwesome name="bell-o" size={24} color="#72B4BE" onPress={bellHandle} />
               </TouchableOpacity>
             ),
           }}

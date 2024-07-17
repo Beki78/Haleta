@@ -16,7 +16,6 @@ import Button from "../components/Button"
 import "@expo/metro-runtime";
 import { StatusBar } from 'expo-status-bar';
 
-import * as Location from "expo-location";
 
 const onboardingData = [
   {
@@ -90,24 +89,11 @@ const Footer = ({ currentIndex }) => {
 };
 
 const Main = () => {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
 
-   useEffect(() => {
-     (async () => {
-       let { status } = await Location.requestForegroundPermissionsAsync();
-       if (status !== "granted") {
-         setErrorMsg("Permission to access location was denied");
-         console.log(setErrorMsg);
-         return;
-       }
-
-       let location = await Location.getCurrentPositionAsync({});
-       setLocation(location);
-     })();
-   }, []);
+  
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {

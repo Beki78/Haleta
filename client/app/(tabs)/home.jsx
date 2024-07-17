@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,50 +9,63 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import "@expo/metro-runtime";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
-import Filter from "../../components/Filter";
 import { Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import DATA from "../../lib/data";
+import * as Location from "expo-location";
+import Filter from "../../components/Filter";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
+
 const Item = ({ hospital, phone, money, image, handlePress }) => {
   return (
     <TouchableOpacity
       onPress={handlePress}
-      activeOpacity={0.9}
-      className="shadow-sm shadow-slate-200 bg-white m-1 flex-1 rounded-md "
+      activeOpacity={0.5}
+      style={{
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        backgroundColor: "#fff",
+        margin: 8,
+        flex: 1,
+        borderRadius: 8,
+        overflow: "hidden",
+      }}
     >
       <Image
         source={image}
-        className="w-full h-52 rounded-t-md"
+        style={{
+          width: "100%",
+          height: 150,
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+        }}
         resizeMode="cover"
       />
-      <View className="">
-        <View className="bg-green-500 w-2 h-2 rounded-full absolute right-3 top-2 animation"></View>
-        <View className="p-2 py-4 pr-4 flex justify-start items-start ">
-          <View className="flex flex-row  items-center">
-            <Entypo name="location-pin" size={24} color="#72B4BE" />
-            <Text
-              numberOfLines={1}
-              ellipsize={"tail"}
-              className="ml-3 text-gray-600  "
-            >
-              {hospital}
-            </Text>
-          </View>
-          <View className="flex flex-row items-center ">
-            <FontAwesome name="phone" size={20} color="#72B4BE" />
-            <Text className="ml-5  text-gray-600">{phone}</Text>
-          </View>
-          <View className="flex flex-row items-center ">
-            <FontAwesome className="" name="money" size={18} color="#72B4BE" />
-            <Text className="ml-4 text-gray-600">{money} ETB</Text>
-          </View>
+      <View style={{ padding: 10 }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Entypo name="location-pin" size={24} color="#72B4BE" />
+          <Text numberOfLines={1} style={{ paddingRight: 10, color: "#666" }}>
+            {hospital}
+          </Text>
+        </View>
+        <View
+          style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
+        >
+          <FontAwesome name="phone" size={20} color="#72B4BE" />
+          <Text style={{ marginLeft: 10, color: "#666" }}>{phone}</Text>
+        </View>
+        <View
+          style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
+        >
+          <FontAwesome name="money" size={18} color="#72B4BE" />
+          <Text style={{ marginLeft: 10, color: "#666" }}>{money} ETB</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -60,6 +74,36 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
 
 const Home = () => {
   const router = useRouter();
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [filteredData, setFilteredData] = useState(DATA);
+  const [isNearbyActive, setIsNearbyActive] = useState(false);
+  const [isButtonActive, setIsButtonActive] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery === "") {
+      setFilteredData(DATA);
+    } else {
+      const filtered = DATA.filter((item) =>
+        item.hospital.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchQuery]);
 
   const handlePress = (item) => {
     router.push({
@@ -68,43 +112,102 @@ const Home = () => {
     });
   };
 
+  const lowcostHandle = () => {
+    const filtered = DATA.filter((item) => item.money < 2000);
+    setFilteredData(filtered);
+    setIsNearbyActive(true);
+    setIsButtonActive("Low Cost");
+  };
+
+  const nearByHandle = () => {
+    setIsButtonActive("Near by");
+  };
+
+  const allHandle = () => {
+    setFilteredData(DATA);
+    setIsNearbyActive(false);
+    setIsButtonActive("All");
+  };
+
+  const renderItem = ({ item }) => {
+    if (item.placeholder) {
+      return <View style={{ flex: 1, margin: 8 }} />;
+    }
+
+    return (
+      <Item
+        hospital={item.hospital}
+        phone={item.phone}
+        money={item.money}
+        image={item.image}
+        handlePress={() => handlePress(item)}
+      />
+    );
+  };
+
+  const dataToRender = [...filteredData];
+  if (dataToRender.length % 2 !== 0) {
+    dataToRender.push({ id: "placeholder", placeholder: true });
+  }
+
   return (
-    <SafeAreaView className="mx-3">
-      <View>
-        <View className="flex flex-row gap-12 items-center">
-          <View className="border-[1px]  border-[#72B4BE] flex-[10]  flex flex-row p-2 rounded-md">
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ paddingHorizontal: 12 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 12,
+          }}
+        >
+          <View
+            style={{
+              borderColor: "#72B4BE",
+              borderWidth: 1,
+              flex: 1,
+              flexDirection: "row",
+              padding: 8,
+              borderRadius: 8,
+            }}
+          >
             <FontAwesome
               name="search"
               size={24}
               color="#72B4BE"
-              className="mx-3"
+              style={{ marginRight: 10 }}
             />
-            <TextInput className="flex-1 ml-3" placeholder="Search ambulance" />
-          </View>
-          <View className="flex-[]">
-            <Ionicons name="options" size={35} color="#72B4BE" />
+            <TextInput
+              style={{ flex: 1 }}
+              placeholder="Search ambulance"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
           </View>
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <Filter title="Near by" />
-          <Filter title="All" />
-          <Filter title="Available" />
+          <Filter
+            title="All"
+            buttonHandle={allHandle}
+            activeStyle={isButtonActive === "All"}
+          />
+          <Filter
+            title="Near by"
+            buttonHandle={nearByHandle}
+            activeStyle={isButtonActive === "Near by"}
+          />
+          <Filter
+            title="Low Cost"
+            buttonHandle={lowcostHandle}
+            activeStyle={isButtonActive === "Low Cost"}
+          />
         </ScrollView>
       </View>
       <FlatList
-        data={DATA}
+        data={dataToRender}
         numColumns={2}
-        className="h-[86%]"
-        renderItem={({ item }) => (
-          <Item
-            hospital={item.hospital}
-            phone={item.phone}
-            money={item.money}
-            image={item.image}
-            handlePress={() => handlePress(item)}
-          />
-        )}
-        keyExtractor={(item) => item.id}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
       />
     </SafeAreaView>
   );
