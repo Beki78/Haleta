@@ -27,7 +27,7 @@ const UserProfile = () => {
         />
         <View className="flex flex-row gap-3 items-center">
           <FontAwesome name="phone" size={24} color="#72B4BE" />
-          <Text>amanuel@gmail.com</Text>
+          <Text>Addis Ababa, Et</Text>
         </View>
         <View
           style={{

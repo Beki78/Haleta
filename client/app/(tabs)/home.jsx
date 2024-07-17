@@ -15,16 +15,14 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import Filter from "../../components/Filter";
 import { Entypo } from "@expo/vector-icons";
-import {router} from "expo-router"
-import DATA from "../../lib/data"
-
-
-
+import { useRouter } from "expo-router";
+import DATA from "../../lib/data";
 
 const { width, height } = Dimensions.get("window");
 const Item = ({ hospital, phone, money, image, handlePress }) => {
   return (
-    <TouchableOpacity onPress={handlePress}
+    <TouchableOpacity
+      onPress={handlePress}
       activeOpacity={0.9}
       className="shadow-sm shadow-slate-200 bg-white m-1 flex-1 rounded-md "
     >
@@ -61,6 +59,15 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
 };
 
 const Home = () => {
+  const router = useRouter();
+
+  const handlePress = (item) => {
+    router.push({
+      pathname: `/detail/More`,
+      params: { item: JSON.stringify(item) },
+    });
+  };
+
   return (
     <SafeAreaView className="mx-3">
       <View>
@@ -94,7 +101,7 @@ const Home = () => {
             phone={item.phone}
             money={item.money}
             image={item.image}
-            handlePress={() => router.push("detail/More")}
+            handlePress={() => handlePress(item)}
           />
         )}
         keyExtractor={(item) => item.id}

@@ -6,7 +6,7 @@ import "@expo/metro-runtime";
 const MoreLayout = () => {
   return (
     <Stack>
-      <Stack.Screen name="More" options={{ headerShown: false }} />
+      <Stack.Screen name="[id]" options={{ headerShown: false }} />
     </Stack>
   );
 };

@@ -4,7 +4,7 @@
     "slug": "client",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/appicon.jpg",
+    "icon": "./assets/images/haletaicon.jpg",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/appicon.jpg",
+        "foregroundImage": "./assets/images/haletaicon.jpg",
         "backgroundColor": "#ffffff",
         "package": "com.bereket.haleta"
       },

@@ -1,8 +1,9 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 import Avatar from "../../assets/images/svg/avatar.png"
-import { Octicons } from "@expo/vector-icons";
+import { Entypo, Octicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+
 const setting = () => {
   return (
     <>
@@ -14,7 +15,8 @@ const setting = () => {
       <Text className="text-center text-xl font-semibold">Amanuel</Text>
       <View className="mx-7 my-6 p-7 bg-white shadow-sm  shadow-slate-300 rounded-md">
         <View className="flex flex-row  gap-3">
-          <FontAwesome name="phone" size={24} color="#72B4BE" />
+          <Entypo name="location-pin" size={27} color="#72B4BE" />
+
           <Text>098765476</Text>
         </View>
         <View
@@ -26,7 +28,7 @@ const setting = () => {
         />
         <View className="flex flex-row gap-3 items-center">
           <FontAwesome name="phone" size={24} color="#72B4BE" />
-          <Text>amanuel@gmail.com</Text>
+          <Text>Addis Ababa, Et</Text>
         </View>
         <View
           style={{
