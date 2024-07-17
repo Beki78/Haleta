@@ -31,10 +31,9 @@ const RootLayout = () => {
             headerBackVisible: false,
             headerTitle: (props) => <LogoTitle {...props} />,
             headerRight: () => (
-                <TouchableOpacity>
-                  <FontAwesome name="bell-o" size={24} color="#72B4BE" />
-                </TouchableOpacity>
-               
+              <TouchableOpacity>
+                <FontAwesome name="bell-o" size={24} color="#72B4BE" />
+              </TouchableOpacity>
             ),
           }}
         />

@@ -16,6 +16,7 @@ import Button from "../../components/Button";
 import CustomActionSheet from "../../components/ActionSheet";
 import RBSheet from "react-native-raw-bottom-sheet";
 import ActionSheet from "../../components/ActionSheet";
+import { Stack } from "expo-router";
 
 const DATA = [
   {

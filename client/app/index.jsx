@@ -14,6 +14,7 @@ import Logo1 from "../assets/images/svg/undraw_booking_re_gw4j.png";
 import Logo2 from "../assets/images/svg/undraw_my_location_re_r52x.png";
 import Button from "../components/Button"
 import "@expo/metro-runtime";
+import { StatusBar } from 'expo-status-bar';
 
 import * as Location from "expo-location";
 
@@ -144,7 +145,7 @@ const Main = () => {
         style={"mb-32"}
         handlePress={() => router.push("signin")}
       />
-     
+      <StatusBar style="dark" />
     </SafeAreaView>
   );
 };
