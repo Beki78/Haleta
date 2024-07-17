@@ -262,13 +262,13 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
       />
       <View className="">
         <View className="bg-green-500 w-2 h-2 rounded-full absolute right-3 top-2 animation"></View>
-        <View className="p-2 py-4 flex justify-start items-start ">
+        <View className="p-2 py-4 pr-4 flex justify-start items-start ">
           <View className="flex flex-row  items-center">
             <Entypo name="location-pin" size={24} color="#72B4BE" />
             <Text
               numberOfLines={1}
               ellipsize={"tail"}
-              className="ml-3 text-gray-600"
+              className="ml-3 text-gray-600  "
             >
               {hospital}
             </Text>

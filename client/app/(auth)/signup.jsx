@@ -10,9 +10,9 @@ import createUser from "../../lib/appwrite";
 import test from "../../lib/appwrite.js";
 
 const submit = (userPhonenumber) => {
-  console.log(userPhonenumber);
-  // createUser(userPhonenumber);
-  test()
+  // console.log(userPhonenumber);
+  // // createUser(userPhonenumber);
+  // test()
   router.push("otp/Otp");
 };
 
