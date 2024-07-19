@@ -4,7 +4,7 @@
     "slug": "client",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Creative Chatting App Logo.png",
+    "icon": "./assets/images/svg/appicon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/Creative Chatting App Logo.png",
+        "foregroundImage": "./assets/images/svg/appicon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -53,3 +53,4 @@
     }
   }
 }
+
