@@ -4,12 +4,12 @@
     "slug": "client",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/haletaicon.jpg",
+    "icon": "./assets/images/Creative Chatting App Logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/svg/mainsplashscreen.png",
-      "resizeMode": "cotain",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
@@ -17,9 +17,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/haletaicon.jpg",
-        "backgroundColor": "#ffffff",
-        "package": "com.bereket.haleta"
+        "foregroundImage": "./assets/images/Creative Chatting App Logo.png",
+        "backgroundColor": "#ffffff"
       },
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
