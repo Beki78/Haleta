@@ -48,13 +48,13 @@ const ActionSheet = ({ bottomSheetRef }) => {
 
   useEffect(() => {
     if (isOpen) {
-      setIsOpen(false); // Close the bottom sheet on initial mount
+      setIsOpen(false); 
     }
-  }, []); // Empty dependency array to run only once
+  }, []); 
   const radioButtons = useMemo(
     () => [
       {
-        id: "1", // acts as primary key, should be unique and non-empty string
+        id: "1",
         label: "Yes",
         value: "yes",
       },
@@ -69,7 +69,7 @@ const ActionSheet = ({ bottomSheetRef }) => {
   const damagelevel = useMemo(
     () => [
       {
-        id: "1", // acts as primary key, should be unique and non-empty string
+        id: "1", 
         label: "Samll",
         value: "small",
       },
@@ -89,7 +89,7 @@ const ActionSheet = ({ bottomSheetRef }) => {
    const emergencybutton = useMemo(
      () => [
        {
-         id: "1", // acts as primary key, should be unique and non-empty string
+         id: "1", 
          label: "Yes",
          value: "yes",
        },
@@ -116,7 +116,7 @@ const ActionSheet = ({ bottomSheetRef }) => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       snapPoints={snapPoints}
-      index={isOpen ? 0 : -1} // Set index to -1 to close initially
+      index={isOpen ? 0 : -1} 
       backdropComponent={renderBackdrop}
     >
       <View>

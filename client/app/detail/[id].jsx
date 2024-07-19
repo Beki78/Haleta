@@ -1,12 +1,10 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import Button from "../../components/Button";
 import ActionSheet from "../../components/ActionSheet";
-import RBSheet from "react-native-raw-bottom-sheet";
 import { useRouter, useLocalSearchParams } from "expo-router";
 
 const INITIAL_REGION = {
