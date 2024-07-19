@@ -1,40 +1,21 @@
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Entypo } from "@expo/vector-icons";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import Button from "../../components/Button";
 import ActionSheet from "../../components/ActionSheet";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import Doctor  from "../../assets/images/svg/undraw_medicine_b-1-ol.png"
 
-const INITIAL_REGION = {
-  latitude: 8.99561,
-  longitude: 38.8140149,
-  latitudeDelta: 0,
-  longitudeDelta: 0.001,
-  
-};
+
 
 const More = () => {
   const bottomSheetRef = useRef();
   const { item } = useLocalSearchParams();
   const parsedItem = JSON.parse(item);
-  const [region, setRegion] = useState(INITIAL_REGION);
-  const [parsedItems, setParsedItems] = useState(null);
 
-  useEffect(() => {
-    if (item) {
-      const parsed = JSON.parse(item);
-      setParsedItems(parsed);
 
-      setRegion({
-        latitude: parsed.latitude || INITIAL_REGION.latitude,
-        longitude: parsed.longitude || INITIAL_REGION.longitude,
-        latitudeDelta: INITIAL_REGION.latitudeDelta,
-        longitudeDelta: INITIAL_REGION.longitudeDelta,
-      });
-    }
-  }, [item]);
+ 
 
   const openModal = () => {
     bottomSheetRef.current?.expand();
@@ -42,24 +23,9 @@ const More = () => {
 
   return (
     <>
-      <MapView
-        style={{ flex: 1 }}
-        provider={PROVIDER_GOOGLE}
-        region={region}
-        showsUserLocation
-        showsMyLocationButton
-      >
-        <Marker
-          coordinate={{
-            latitude: parsedItem.latitude || INITIAL_REGION.latitude,
-            longitude: parsedItem.longitude || INITIAL_REGION.longitude,
-          }}
-          title={parsedItem.hospital}
-          description={`Phone: ${parsedItem.phone}, Cost: ${parsedItem.money} ETB`}
-        />
-      </MapView>
+      <Image source={Doctor} className="w-96 h-40 mt-4  flex-1 justify-center items-center"/>
       <View>
-        <View className="flex flex-row gap-4 ml-4 mt-4">
+        <View className="flex flex-row gap-4 ml-4 mt-10">
           <FontAwesome name="phone" size={32} color="#72B4BE" />
           <Text className="text-lg">{parsedItem.phone}</Text>
         </View>
@@ -72,8 +38,14 @@ const More = () => {
         />
         <View className="flex flex-row gap-4 ml-4 mt-4">
           <Entypo name="location-pin" size={37} color="#72B4BE" />
-          <Text className="text-lg">{parsedItem.hospital}</Text>
+          <Text
+            className="text-lg flex-1 flex-shrink"
+            style={{ flexShrink: 1 }}
+          >
+            {parsedItem.hospital}
+          </Text>
         </View>
+
         <View
           style={{
             borderBottomWidth: 1,

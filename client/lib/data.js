@@ -2,9 +2,6 @@ import Image1 from "../assets/images/svg/jose-de-azpiazu-Fz4bjB8LdT4-unsplash.jp
 import Image2 from "../assets/images/svg/lalithmalhaar-gudi-T1C9zpFpky4-unsplash.jpg";
 import Image3 from "../assets/images/svg/mikita-yo-UC9s2TkvN1Y-unsplash.jpg";
 
-
-
-
 const DATA = [
   {
     id: 1,
@@ -352,4 +349,4 @@ const DATA = [
   },
 ];
 
-export default DATA
+export default DATA;
