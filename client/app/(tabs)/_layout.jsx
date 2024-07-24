@@ -35,6 +35,16 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
+        name="News"
+        options={{
+          headerShown: false,
+          title: "News",
+          tabBarIcon: () => (
+            <FontAwesome name="newspaper-o" size={24} color="#72B4BE" />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           headerShown: false,

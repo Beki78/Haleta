@@ -113,11 +113,14 @@ const Home = () => {
   };
 
   const lowcostHandle = () => {
-    const filtered = DATA.filter((item) => item.money < 2000);
-    setFilteredData(filtered);
+    const filteredAndSorted = DATA.filter((item) => item.money < 2000).sort(
+      (a, b) => parseInt(a.money, 10) - parseInt(b.money, 10)
+    );
+    setFilteredData(filteredAndSorted);
     setIsNearbyActive(true);
     setIsButtonActive("Low Cost");
   };
+
 
   const nearByHandle = () => {
     setIsButtonActive("Near by");
