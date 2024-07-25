@@ -43,8 +43,9 @@ const News = () => {
         <View style={styles.articleContainer}>
           <Image
             className="w-full"
+            resizeMode="contain"
             source={item.urlToImage ? { uri: item.urlToImage } : NoImage}
-            style={{ height: 200 }}
+            style={{ height: 250 }}
           />
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.description}>{item.description}</Text>

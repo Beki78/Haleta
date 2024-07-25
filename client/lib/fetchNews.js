@@ -11,7 +11,6 @@ const fetchNews = async () => {
         category: "health", 
       },
     });
-    console.log(response.data.articles);
     return response.data.articles;
   } catch (error) {
     console.error("Error fetching news:", error);
