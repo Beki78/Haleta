@@ -1,9 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome } from "@expo/vector-icons";
-import HomeScreen from "./home";
-import HistoryScreen from "./history";
-import NewsScreen from "./News";
+import HomeScreen from "./home"; 
+import HistoryScreen from "./history"; 
+import NewsScreen from "./News"; 
 import ProfileScreen from "./profile"; 
 
 const BottomTab = createBottomTabNavigator();
@@ -23,7 +23,7 @@ const TabsLayout = () => {
         options={{
           headerShown: false,
           title: "Home",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: () => (
             <FontAwesome name="home" size={30} color="#72B4BE" />
           ),
         }}
@@ -34,7 +34,7 @@ const TabsLayout = () => {
         options={{
           headerShown: false,
           title: "History",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: () => (
             <FontAwesome name="history" size={24} color="#72B4BE" />
           ),
         }}
@@ -47,7 +47,7 @@ const TabsLayout = () => {
           tabBarBadgeStyle: { backgroundColor: "red", fontSize: 9 },
           headerShown: false,
           title: "News",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: () => (
             <FontAwesome name="newspaper-o" size={24} color="#72B4BE" />
           ),
         }}
@@ -58,7 +58,7 @@ const TabsLayout = () => {
         options={{
           headerShown: false,
           title: "Profile",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: () => (
             <FontAwesome name="user-circle-o" size={24} color="#72B4BE" />
           ),
         }}

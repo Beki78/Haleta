@@ -10,13 +10,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+import { FontAwesome, Ionicons, Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import DATA from "../../lib/data";
 import * as Location from "expo-location";
 import Filter from "../../components/Filter";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import NEMT from "./toptabs/Nonemergency"
+
 
 const { width } = Dimensions.get("window");
 
@@ -72,27 +74,15 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
   );
 };
 
-const Home = () => {
+const HomeScreen = () => {
   const router = useRouter();
-  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [filteredData, setFilteredData] = useState(DATA);
   const [isNearbyActive, setIsNearbyActive] = useState(false);
   const [isButtonActive, setIsButtonActive] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
+  
 
   useEffect(() => {
     if (searchQuery === "") {
@@ -121,7 +111,6 @@ const Home = () => {
     setIsButtonActive("Low Cost");
   };
 
-
   const nearByHandle = () => {
     setIsButtonActive("Near by");
   };
@@ -143,7 +132,7 @@ const Home = () => {
         phone={item.phone}
         money={item.money}
         image={item.image}
-        handlePress={() => handlePress(item)}
+        handlePress={() => handlePress(item)}  
       />
     );
   };
@@ -216,4 +205,19 @@ const Home = () => {
   );
 };
 
-export default Home;
+const Tab = createMaterialTopTabNavigator();
+
+const HomeTabs = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarIndicatorStyle: { backgroundColor: "#77B4BE" }, 
+      }}
+    >
+      <Tab.Screen name="Emergency" component={HomeScreen} />
+      <Tab.Screen name="NEMT" component={NEMT} />
+    </Tab.Navigator>
+  );
+};
+
+export default HomeTabs;
