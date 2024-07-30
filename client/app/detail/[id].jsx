@@ -8,26 +8,47 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import Doctor from "../../assets/images/svg/undraw_medicine_b-1-ol.png";
 import { getDistance } from "geolib";
 import DATA from "../../lib/data";
-
-
+import * as Location from "expo-location";
 
 const More = () => {
   const bottomSheetRef = useRef();
   const { item } = useLocalSearchParams();
   const parsedItem = JSON.parse(item);
   const [location, setLocation] = useState(null);
+  const [distance, setDistance] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
 
- 
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
 
-  // const openGoogleMaps = (userLocation, hospitalLocation) => {
-  //   const url = `https://www.google.com/maps/dir/?api=1&origin=9.0300,38.7500&destination=9.0400,38.7600&travelmode=driving`;
-  //   Linking.openURL(url);
-  // };
+      const dist =
+        getDistance(
+          {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          },
+          { latitude: parsedItem.latitude, longitude: parsedItem.longitude }
+        ) / 1000; // Convert meters to kilometers
+      setDistance(dist.toFixed(2));
+    })();
+  }, []);
+
+  const openGoogleMaps = () => {
+    if (location) {
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${location.coords.latitude},${location.coords.longitude}&destination=${parsedItem.latitude},${parsedItem.longitude}&travelmode=driving`;
+      Linking.openURL(url);
+    }
+  };
+
   const openModal = () => {
-    // openGoogleMaps();
-      console.log(location);
-
     bottomSheetRef.current?.expand();
   };
 
@@ -35,7 +56,7 @@ const More = () => {
     <>
       <Image
         source={Doctor}
-        className="w-96 h-full mt-4  flex-1 justify-center items-center"
+        className="w-96 h-full mt-4 flex-1 justify-center items-center"
       />
       <View className="">
         <View className="flex flex-row gap-4 ml-4 mt-10">
@@ -70,8 +91,9 @@ const More = () => {
           <Text
             className="text-lg flex-1 flex-shrink"
             style={{ flexShrink: 1 }}
+            onPress={openGoogleMaps}
           >
-            {parsedItem.hospital}
+            {distance ? `${distance} km` : "Turn on your location"}
           </Text>
         </View>
         <View

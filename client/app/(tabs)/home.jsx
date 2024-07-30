@@ -76,7 +76,6 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
 
 const HomeScreen = () => {
   const router = useRouter();
-  const [errorMsg, setErrorMsg] = useState(null);
   const [filteredData, setFilteredData] = useState(DATA);
   const [isNearbyActive, setIsNearbyActive] = useState(false);
   const [isButtonActive, setIsButtonActive] = useState("All");
