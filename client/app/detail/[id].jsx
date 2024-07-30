@@ -6,6 +6,8 @@ import Button from "../../components/Button";
 import ActionSheet from "../../components/ActionSheet";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import Doctor from "../../assets/images/svg/undraw_medicine_b-1-ol.png";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { getDistance } from "geolib";
 import DATA from "../../lib/data";
 import * as Location from "expo-location";
@@ -48,6 +50,10 @@ const More = () => {
     }
   };
 
+  const makePhoneCall = (phoneNumber) => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+
   const openModal = () => {
     bottomSheetRef.current?.expand();
   };
@@ -57,11 +63,18 @@ const More = () => {
       <Image
         source={Doctor}
         className="w-96 h-full mt-4 flex-1 justify-center items-center"
+        resizeMode="contain"
       />
       <View className="">
         <View className="flex flex-row gap-4 ml-4 mt-10">
           <FontAwesome name="phone" size={32} color="#72B4BE" />
-          <Text className="text-lg">{parsedItem.phone}</Text>
+          <Text
+            className="text-lg"
+            onPress={() => makePhoneCall(parsedItem.phone)}
+            style={{ color: '#007bff' }} // Optional: Change color to indicate it's clickable
+          >
+            {parsedItem.phone}
+          </Text>
         </View>
         <View
           style={{
@@ -71,7 +84,7 @@ const More = () => {
           }}
         />
         <View className="flex flex-row gap-4 ml-4 mt-4">
-          <Entypo name="location-pin" size={37} color="#72B4BE" />
+          <FontAwesome5 name="hospital-symbol" size={27} color="#72B4BE" />
           <Text
             className="text-lg flex-1 flex-shrink"
             style={{ flexShrink: 1 }}
@@ -87,7 +100,11 @@ const More = () => {
           }}
         />
         <View className="flex flex-row gap-4 ml-4 mt-4">
-          <Entypo name="location-pin" size={37} color="#72B4BE" />
+          <MaterialCommunityIcons
+            name="map-marker-distance"
+            size={32}
+            color="#72B4BE"
+          />
           <Text
             className="text-lg flex-1 flex-shrink"
             style={{ flexShrink: 1 }}
@@ -104,7 +121,7 @@ const More = () => {
           }}
         />
         <View className="flex flex-row gap-4 ml-4 mt-4">
-          <FontAwesome className="" name="money" size={29} color="#72B4BE" />
+          <FontAwesome className="" name="money" size={28} color="#72B4BE" />
           <Text className="text-lg">{parsedItem.money} ETB</Text>
         </View>
       </View>

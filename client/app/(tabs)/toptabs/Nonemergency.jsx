@@ -6,44 +6,53 @@ import {
   Text,
   Image,
   TextInput,
-  Button,
   TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
 } from "react-native";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import Marquee from "react-native-marquee";
-import Img from "../../../assets/images/svg/jose-de-azpiazu-Fz4bjB8LdT4-unsplash.jpg";
+import regularAuto from "../../../assets/images/svg/regular_automobile-removebg-preview.png";
+import vipAuto from "../../../assets/images/svg/vip_automobile-removebg-preview.png";
+import basicAmbu from "../../../assets/images/svg/basic_ambulance-removebg-preview.png";
+import AdvanceAmbu from "../../../assets/images/svg/advanced_ambulance-removebg-preview.png";
+import Button from "../../../components/Button"
 
 const DATA = [
   {
     id: "1",
     type: "Regular Automobile",
     price: "1,000 ETB",
+    image: regularAuto,
   },
   {
     id: "2",
     type: "VIP Transport Vehicle",
     price: "3,000 ETB",
+    image: vipAuto,
   },
   {
     id: "3",
     type: "Basic Ambulance",
     price: "2,000 ETB",
+    image: basicAmbu,
   },
   {
     id: "4",
     type: "Advanced Ambulance",
     price: "4,000 ETB",
+    image: AdvanceAmbu,
   },
 ];
 
-const Item = ({ title, price, onPress }) => (
+const Item = ({ title, price, image, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.itemContainer}>
     <Text style={styles.itemTitle}>{title}</Text>
     <View style={styles.itemContent}>
-      <Image style={styles.image} source={Img} />
-      <Text style={{color: "#666"}} className="font-light">{price}</Text>
+      <Image resizeMode="contain" style={styles.image} source={image} />
+      <Text style={{ color: "#666" }} className="font-light">
+        {price}
+      </Text>
     </View>
   </TouchableOpacity>
 );
@@ -99,7 +108,7 @@ const Nonemergency = () => {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
       <View style={styles.container}>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText} className="">
+          <Text style={styles.descriptionText}>
             Non-Emergency Medical Transportation (NEMT) provides transportation
             services for individuals who are not in an emergency situation but
             need more assistance than a regular taxi service. NEMT services
@@ -123,6 +132,7 @@ const Nonemergency = () => {
               <Item
                 title={item.type}
                 price={item.price}
+                image={item.image}
                 onPress={() => handleOpenBottomSheet(item)}
               />
             )}
@@ -146,8 +156,11 @@ const Nonemergency = () => {
           <View style={styles.sheetContent}>
             {selectedVehicle && (
               <>
-                <Text style={styles.inputLabel}>
-                  Selected Vehicle: {selectedVehicle.type}
+                <Text
+                  className="text-center text-2xl font-bold my-4"
+                  style={styles.inputLabel}
+                >
+                  {selectedVehicle.type}
                 </Text>
                 <TextInput
                   style={styles.input}
@@ -157,12 +170,12 @@ const Nonemergency = () => {
                 />
                 <TextInput
                   style={styles.input}
-                  placeholder="Enter hospital name/area"
+                  placeholder="Enter hospital name"
                   value={hospitalArea}
                   onChangeText={setHospitalArea}
                 />
                 {error && <Text style={styles.errorText}>{error}</Text>}
-                <Button title="Submit" onPress={handleSubmit} />
+                <Button title={"Book"} handlePress={handleSubmit} />
               </>
             )}
           </View>
@@ -173,8 +186,7 @@ const Nonemergency = () => {
 };
 
 const styles = StyleSheet.create({
-    
-  container: { flex: 1, paddingTop: 16 ,backgroundColor: "#fff"},
+  container: { flex: 1, paddingTop: 16, backgroundColor: "#fff" },
   marquee: {
     backgroundColor: "#72B4BE",
     color: "#fff",
@@ -194,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     marginVertical: 7,
-    marginLeft:10
+    marginLeft: 10,
   },
   itemContainer: {
     marginVertical: 8,
@@ -229,10 +241,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
   },
-  inputLabel: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
+  
   input: {
     borderColor: "#72B4BE",
     borderWidth: 1,

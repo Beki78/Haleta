@@ -16,7 +16,7 @@ const UserProfile = () => {
       <View className="mx-7 my-6 p-7 bg-white shadow-sm  shadow-slate-300 rounded-md">
         <View className="flex flex-row  gap-3">
           <FontAwesome name="phone" size={24} color="#72B4BE" />
-          <Text>098765476</Text>
+          <Text>0912345678</Text>
         </View>
         <View
           style={{
