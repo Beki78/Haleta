@@ -11,12 +11,11 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import Marquee from "react-native-marquee";
+import Button from "../../../components/Button";
 import regularAuto from "../../../assets/images/svg/regular_automobile-removebg-preview.png";
 import vipAuto from "../../../assets/images/svg/vip_automobile-removebg-preview.png";
 import basicAmbu from "../../../assets/images/svg/basic_ambulance-removebg-preview.png";
 import AdvanceAmbu from "../../../assets/images/svg/advanced_ambulance-removebg-preview.png";
-import Button from "../../../components/Button"
 
 const DATA = [
   {
@@ -24,28 +23,36 @@ const DATA = [
     type: "Regular Automobile",
     price: "1,000 ETB",
     image: regularAuto,
+    description:
+      "A standard vehicle suitable for non-emergency medical appointments and general transportation needs.",
   },
   {
     id: "2",
     type: "VIP Transport Vehicle",
     price: "3,000 ETB",
     image: vipAuto,
+    description:
+      "A luxury vehicle offering premium comfort and amenities for patients needing higher levels of service.",
   },
   {
     id: "3",
     type: "Basic Ambulance",
     price: "2,000 ETB",
     image: basicAmbu,
+    description:
+      "A well-equipped ambulance for basic emergency care and medical transport. Designed to handle non-critical emergencies.",
   },
   {
     id: "4",
     type: "Advanced Ambulance",
     price: "4,000 ETB",
     image: AdvanceAmbu,
+    description:
+      "A fully equipped ambulance with advanced medical equipment and personnel. Suitable for critical emergencies requiring extensive care.",
   },
 ];
 
-const Item = ({ title, price, image, onPress }) => (
+const Item = ({ title, price, image, description, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.itemContainer}>
     <Text style={styles.itemTitle}>{title}</Text>
     <View style={styles.itemContent}>
@@ -54,6 +61,7 @@ const Item = ({ title, price, image, onPress }) => (
         {price}
       </Text>
     </View>
+    <Text style={styles.itemDescription}>{description}</Text>
   </TouchableOpacity>
 );
 
@@ -109,12 +117,14 @@ const Nonemergency = () => {
       <View style={styles.container}>
         <View style={styles.descriptionContainer}>
           <Text style={styles.descriptionText}>
-            Non-Emergency Medical Transportation (NEMT) provides transportation
-            services for individuals who are not in an emergency situation but
-            need more assistance than a regular taxi service. NEMT services
-            include transportation for routine medical appointments, antenatal
-            followups, dialysis, people with disability, elderly people with
-            chronic medical illnesses, and more.
+            NEMT is best for you if you need a safe, secure and reliable
+            transport service for your hospital visits. This is Most suited for
+            your antenatal pregnancy care followups, dialysis, and followup for
+            chronic medical illness like Diabetes, hypertension. If you are a
+            person with special needs, Haleta has got your back as well. We have
+            all variety of crutches, manual & powered wheelchairs and all
+            mobility assistive equipments to safely escort you to your preferred
+            hospital swiftly.
           </Text>
         </View>
         <View
@@ -162,6 +172,9 @@ const Nonemergency = () => {
                 >
                   {selectedVehicle.type}
                 </Text>
+                <Text style={{}} className="font-light pb-3 text-center ">
+                  {selectedVehicle.description}
+                </Text>
                 <TextInput
                   style={styles.input}
                   placeholder="Enter area of departure"
@@ -187,12 +200,6 @@ const Nonemergency = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingTop: 16, backgroundColor: "#fff" },
-  marquee: {
-    backgroundColor: "#72B4BE",
-    color: "#fff",
-    fontSize: 20,
-    padding: 10,
-  },
   descriptionContainer: {
     paddingHorizontal: 10,
   },
@@ -236,12 +243,17 @@ const styles = StyleSheet.create({
     height: 80,
     marginRight: 10,
   },
+  itemDescription: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 8,
+    textAlign: "justify",
+  },
   sheetContent: {
     flex: 1,
     alignItems: "center",
     padding: 16,
   },
-  
   input: {
     borderColor: "#72B4BE",
     borderWidth: 1,

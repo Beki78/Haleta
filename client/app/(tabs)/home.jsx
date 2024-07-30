@@ -144,6 +144,17 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: 12 }}>
+        <Text
+          style={{
+            
+              fontSize: 24, 
+              fontWeight: "bold",
+              color: "#3E4958", 
+              marginBottom:12
+          }}
+        >
+          Welcome back, Amanuel!
+        </Text>
         <View
           style={{
             flexDirection: "row",
