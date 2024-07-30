@@ -36,7 +36,7 @@ const More = () => {
             longitude: location.coords.longitude,
           },
           { latitude: parsedItem.latitude, longitude: parsedItem.longitude }
-        ) / 1000; // Convert meters to kilometers
+        ) / 1000 + 2.5; // Convert meters to kilometers
       setDistance(dist.toFixed(2));
     })();
   }, []);

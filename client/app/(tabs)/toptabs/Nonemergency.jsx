@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useMemo, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -9,7 +9,9 @@ import {
   Button,
   TouchableOpacity,
   Alert,
+  KeyboardAvoidingView,
 } from "react-native";
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import Marquee from "react-native-marquee";
 import Img from "../../../assets/images/svg/jose-de-azpiazu-Fz4bjB8LdT4-unsplash.jpg";
 
@@ -17,25 +19,21 @@ const DATA = [
   {
     id: "1",
     type: "Regular Automobile",
-    // image: require("./path/to/regular_automobile.png"),
     price: "1,000 ETB",
   },
   {
     id: "2",
     type: "VIP Transport Vehicle",
-    // image: require("./path/to/vip_transport.png"),
     price: "3,000 ETB",
   },
   {
     id: "3",
     type: "Basic Ambulance",
-    // image: require("./path/to/basic_ambulance.png"),
     price: "2,000 ETB",
   },
   {
     id: "4",
     type: "Advanced Ambulance",
-    // image: require("./path/to/advanced_ambulance.png"),
     price: "4,000 ETB",
   },
 ];
@@ -45,7 +43,7 @@ const Item = ({ title, price, onPress }) => (
     <Text style={styles.itemTitle}>{title}</Text>
     <View style={styles.itemContent}>
       <Image style={styles.image} source={Img} />
-      <Text>{price}</Text>
+      <Text style={{color: "#666"}} className="font-light">{price}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -55,6 +53,9 @@ const Nonemergency = () => {
   const [departureArea, setDepartureArea] = useState("");
   const [hospitalArea, setHospitalArea] = useState("");
   const [error, setError] = useState(null);
+
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ["70%"], []);
 
   const handleSubmit = () => {
     if (!departureArea || !hospitalArea) {
@@ -67,77 +68,137 @@ const Nonemergency = () => {
       `Vehicle: ${selectedVehicle.type}\nDeparture Area: ${departureArea}\nHospital Area: ${hospitalArea}`,
       [{ text: "OK" }]
     );
+    setDepartureArea("");
+    setHospitalArea("");
+    bottomSheetRef.current.close();
   };
 
+  const handleOpenBottomSheet = (item) => {
+    setSelectedVehicle(item);
+    bottomSheetRef.current.expand();
+  };
+
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        onPress={() => {
+          setDepartureArea("");
+          setHospitalArea("");
+          bottomSheetRef.current.close();
+        }}
+        opacity={0.5}
+      />
+    ),
+    []
+  );
+
   return (
-    <View style={styles.container}>
-      <Marquee
-        className="px-6"
-        style={styles.marquee}
-        delay={1000}
-        marqueeOnStart
-        autoFill
-        loop
-      >
-        Welcome to Non-Emergency Medical Transportation
-      </Marquee>
-      <View>
-        <Text style={styles.headerText}>Select a vehicle</Text>
-        <FlatList
-          data={DATA}
-          renderItem={({ item }) => (
-            <Item
-              title={item.type}
-              price={item.price}
-              onPress={() => setSelectedVehicle(item)}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-          horizontal
-        />
-      </View>
-      {selectedVehicle && (
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>
-            Selected Vehicle: {selectedVehicle.type}
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <View style={styles.container}>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionText} className="">
+            Non-Emergency Medical Transportation (NEMT) provides transportation
+            services for individuals who are not in an emergency situation but
+            need more assistance than a regular taxi service. NEMT services
+            include transportation for routine medical appointments, antenatal
+            followups, dialysis, people with disability, elderly people with
+            chronic medical illnesses, and more.
           </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter area of departure"
-            value={departureArea}
-            onChangeText={setDepartureArea}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter hospital name/area"
-            value={hospitalArea}
-            onChangeText={setHospitalArea}
-          />
-          {error && <Text style={styles.errorText}>{error}</Text>}
-          <Button title="Submit" onPress={handleSubmit} />
         </View>
-      )}
-    </View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderColor: "#D5DDE0",
+            marginVertical: 5,
+          }}
+        />
+        <Text style={styles.headerText}>Select a vehicle: </Text>
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={DATA}
+            renderItem={({ item }) => (
+              <Item
+                title={item.type}
+                price={item.price}
+                onPress={() => handleOpenBottomSheet(item)}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={-1}
+          enablePanDownToClose={true}
+          snapPoints={snapPoints}
+          backdropComponent={renderBackdrop}
+          onChange={(index) => {
+            if (index === -1) {
+              setSelectedVehicle(null);
+              setDepartureArea("");
+              setHospitalArea("");
+            }
+          }}
+        >
+          <View style={styles.sheetContent}>
+            {selectedVehicle && (
+              <>
+                <Text style={styles.inputLabel}>
+                  Selected Vehicle: {selectedVehicle.type}
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter area of departure"
+                  value={departureArea}
+                  onChangeText={setDepartureArea}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter hospital name/area"
+                  value={hospitalArea}
+                  onChangeText={setHospitalArea}
+                />
+                {error && <Text style={styles.errorText}>{error}</Text>}
+                <Button title="Submit" onPress={handleSubmit} />
+              </>
+            )}
+          </View>
+        </BottomSheet>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 16 },
+    
+  container: { flex: 1, paddingTop: 16 ,backgroundColor: "#fff"},
   marquee: {
     backgroundColor: "#72B4BE",
     color: "#fff",
     fontSize: 20,
     padding: 10,
   },
+  descriptionContainer: {
+    paddingHorizontal: 10,
+  },
+  descriptionText: {
+    fontSize: 15,
+    color: "#666",
+    marginBottom: 8,
+    textAlign: "justify",
+  },
   headerText: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
-    textAlign: "center",
-    marginVertical: 16,
+    marginVertical: 7,
+    marginLeft:10
   },
   itemContainer: {
     marginVertical: 8,
-    marginHorizontal: 4,
+    marginHorizontal: 10,
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
     padding: 16,
@@ -150,7 +211,7 @@ const styles = StyleSheet.create({
   itemTitle: {
     textAlign: "center",
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "semibold",
     marginBottom: 8,
   },
   itemContent: {
@@ -163,16 +224,10 @@ const styles = StyleSheet.create({
     height: 80,
     marginRight: 10,
   },
-  inputContainer: {
+  sheetContent: {
+    flex: 1,
+    alignItems: "center",
     padding: 16,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    marginTop: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   inputLabel: {
     fontSize: 16,
@@ -184,6 +239,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 8,
     marginBottom: 16,
+    width: "100%",
   },
   errorText: {
     color: "red",

@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { FlatList, Text, View, StyleSheet, Image } from "react-native";
 import fetchNews from "../../lib/fetchNews";
 import { Link } from "expo-router";
-import NoImage from "../../assets/images/svg/OIP-removebg-preview.png"
+import NoImage from "../../assets/images/svg/OIP-removebg-preview.png";
 
 const News = () => {
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchNewsData = async () => {
@@ -14,6 +15,8 @@ const News = () => {
         setArticles(fetchedArticles);
       } catch (error) {
         console.error("Error fetching news:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -37,32 +40,51 @@ const News = () => {
   };
 
   return (
-    <FlatList
-      data={articles}
-      renderItem={({ item }) => (
-        <View style={styles.articleContainer}>
-          <Image
-            className="w-full"
-            resizeMode="contain"
-            source={item.urlToImage ? { uri: item.urlToImage } : NoImage}
-            style={{ height: 250 }}
-          />
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.description}>{item.description}</Text>
-          <Link href={item.url} style={styles.link}>
-            Read More
-          </Link>
-          <Text style={styles.publishedAt}>
-            {formatPublishedAt(item.publishedAt)}
-          </Text>
+    <View style={styles.container}>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText} className="font-bold">Loading...</Text>
         </View>
+      ) : (
+        <FlatList
+          data={articles}
+          renderItem={({ item }) => (
+            <View style={styles.articleContainer} >
+              <Image
+                className="w-full"
+                resizeMode="contain"
+                source={item.urlToImage ? { uri: item.urlToImage } : NoImage}
+                style={{ height: 250 }}
+              />
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.description}>{item.description}</Text>
+              <Link href={item.url} style={styles.link}>
+                Read More
+              </Link>
+              <Text style={styles.publishedAt}>
+                {formatPublishedAt(item.publishedAt)}
+              </Text>
+            </View>
+          )}
+          keyExtractor={(item) => item.title}
+        />
       )}
-      keyExtractor={(item) => item.title}
-    />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: 20,
+  },
   articleContainer: {
     padding: 16,
     borderBottomWidth: 1,

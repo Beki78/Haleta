@@ -186,11 +186,11 @@ const HomeScreen = () => {
             buttonHandle={lowcostHandle}
             activeStyle={isButtonActive === "Low Cost"}
           />
-          <Filter
+          {/* <Filter
             title="Near by"
             buttonHandle={nearByHandle}
             activeStyle={isButtonActive === "Near by"}
-          />
+          /> */}
         </ScrollView>
       </View>
       <FlatList
@@ -205,7 +205,6 @@ const HomeScreen = () => {
 };
 
 const Tab = createMaterialTopTabNavigator();
-
 const HomeTabs = () => {
   return (
     <Tab.Navigator
