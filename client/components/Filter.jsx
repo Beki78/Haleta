@@ -10,9 +10,10 @@ const Filter = ({ title, buttonHandle, activeStyle }) => {
     >
       <Text
         style={{
-          backgroundColor: activeStyle ? "#72B4BE" : "white",
+          backgroundColor: activeStyle ? "#5e17eb" : "white",
+          color: activeStyle ? "white" : "black",
         }}
-        className=" text-gray-600 px-5 py-2 rounded-xl  my-3 shadow-lg shadow-slate-400"
+        className=" text-white px-5 py-2 rounded-xl  my-3 shadow-lg shadow-slate-400"
       >
         {title}
       </Text>

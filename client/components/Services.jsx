@@ -16,53 +16,55 @@ import regularAuto from "../../../assets/images/svg/regular_automobile-removebg-
 import vipAuto from "../../../assets/images/svg/vip_automobile-removebg-preview.png";
 import basicAmbu from "../../../assets/images/svg/basic_ambulance-removebg-preview.png";
 import AdvanceAmbu from "../../../assets/images/svg/advanced_ambulance-removebg-preview.png";
-import { router } from "expo-router";
-import Transport from "../../Transportation/Transport";
 
 const DATA = [
   {
     id: "1",
-    type: "Pregnant Lady Transportation",
+    type: "Disability Transportation",
     image: regularAuto,
     description:
-      "NEMT is best for you if you need a safe, secure and reliable transport service for your antenatal pregnancy care followups.",
+      "People having physical, cognitive, mental issues and developmental limitation can comfortably use our vehicles. Our vans are well-fitted with wheelchair, seats and paramedic/nurse to attend the clients to their destinations.",
   },
   {
     id: "2",
-    type: "Dialysis Transportation",
+    type: "VIP Transport Vehicle",
+    price: "3,000 ETB",
     image: vipAuto,
     description:
-      "This service is most suited for your dialysis appointments, providing safe and timely transportation.",
+      "A luxury vehicle offering premium comfort and amenities for patients needing higher levels of service.",
   },
   {
     id: "3",
-    type: "Disability Transportation",
+    type: "Basic Ambulance",
+    price: "2,000 ETB",
     image: basicAmbu,
     description:
-      "People having physical, cognitive, mental issues and developmental limitations can comfortably use our vehicles. Our vans are well-fitted with wheelchair, seats and paramedic/nurse to attend the clients to their destinations.",
+      "A well-equipped ambulance for basic emergency care and medical transport. Designed to handle non-critical emergencies.",
   },
   {
     id: "4",
-    type: "Seniors Transportation",
+    type: "Advanced Ambulance",
+    price: "4,000 ETB",
     image: AdvanceAmbu,
     description:
-      "This service is designed for elderly individuals with chronic medical illnesses like diabetes and hypertension. We provide a secure and comfortable transport service.",
+      "A fully equipped ambulance with advanced medical equipment and personnel. Suitable for critical emergencies requiring extensive care.",
   },
 ];
-
 
 const Item = ({ title, price, image, description, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.itemContainer}>
     <Text style={styles.itemTitle}>{title}</Text>
     <View style={styles.itemContent}>
       <Image resizeMode="contain" style={styles.image} source={image} />
-      
+      <Text style={{ color: "#666" }} className="font-light">
+        {price}
+      </Text>
     </View>
     <Text style={styles.itemDescription}>{description}</Text>
   </TouchableOpacity>
 );
 
-const Nonemergency = () => {
+const Services = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [departureArea, setDepartureArea] = useState("");
   const [hospitalArea, setHospitalArea] = useState("");
@@ -114,10 +116,14 @@ const Nonemergency = () => {
       <View style={styles.container}>
         <View style={styles.descriptionContainer}>
           <Text style={styles.descriptionText}>
-            NEMT—Our company offers non-Emergency medical transportation service
-            for groups and individual clients travelling to Dialysis Centers,
-            Health Care Facilities (Hospitals, Pharmacy, Diagnostic Centers),
-            Day Cares, etc.
+            NEMT is best for you if you need a safe, secure and reliable
+            transport service for your hospital visits. This is Most suited for
+            your antenatal pregnancy care followups, dialysis, and followup for
+            chronic medical illness like Diabetes, hypertension. If you are a
+            person with special needs, Haleta has got your back as well. We have
+            all variety of crutches, manual & powered wheelchairs and all
+            mobility assistive equipments to safely escort you to your preferred
+            hospital swiftly.
           </Text>
         </View>
         <View
@@ -127,7 +133,7 @@ const Nonemergency = () => {
             marginVertical: 5,
           }}
         />
-        <Text style={styles.headerText}>Choose a service: </Text>
+        <Text style={styles.headerText}>Choose a services: </Text>
         <View style={{ flex: 1 }}>
           <FlatList
             data={DATA}
@@ -136,8 +142,7 @@ const Nonemergency = () => {
                 title={item.type}
                 price={item.price}
                 image={item.image}
-                description={item.description}
-                onPress={() => router.push("Transportation/Transport")}
+                onPress={() => handleOpenBottomSheet(item)}
               />
             )}
             keyExtractor={(item) => item.id}
@@ -211,7 +216,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     marginVertical: 8,
-    marginHorizontal: 30,
+    marginHorizontal: 10,
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
     padding: 16,
@@ -262,4 +267,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Nonemergency;
+export default Services;

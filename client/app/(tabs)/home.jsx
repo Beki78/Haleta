@@ -18,6 +18,7 @@ import Filter from "../../components/Filter";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import NEMT from "./toptabs/Nonemergency"
+import homeamb from "../../assets/images/svg/homeamb.png"
 
 
 const { width } = Dimensions.get("window");
@@ -52,7 +53,7 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
       />
       <View style={{ padding: 10 }}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Entypo name="location-pin" size={24} color="#72B4BE" />
+          <Entypo name="location-pin" size={24} color="#ff914d" />
           <Text numberOfLines={1} style={{ paddingRight: 10, color: "#666" }}>
             {hospital}
           </Text>
@@ -60,13 +61,13 @@ const Item = ({ hospital, phone, money, image, handlePress }) => {
         <View
           style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
         >
-          <FontAwesome name="phone" size={20} color="#72B4BE" />
+          <FontAwesome name="phone" size={20} color="#ff914d" />
           <Text style={{ marginLeft: 10, color: "#666" }}>{phone}</Text>
         </View>
         <View
           style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
         >
-          <FontAwesome name="money" size={18} color="#72B4BE" />
+          <FontAwesome name="money" size={18} color="#ff914d" />
           <Text style={{ marginLeft: 10, color: "#666" }}>{money} ETB</Text>
         </View>
       </View>
@@ -144,17 +145,11 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: 12 }}>
-        <Text
-          style={{
-            
-              fontSize: 24, 
-              fontWeight: "bold",
-              color: "#3E4958", 
-              marginBottom:12
-          }}
-        >
-          Welcome back, Amanuel!
-        </Text>
+        <Image
+          className="w-full h-40 mb-3"
+          resizeMode="contain"
+          source={homeamb}
+        />
         <View
           style={{
             flexDirection: "row",
@@ -164,7 +159,7 @@ const HomeScreen = () => {
         >
           <View
             style={{
-              borderColor: "#72B4BE",
+              borderColor: "#5e17eb",
               borderWidth: 1,
               flex: 1,
               flexDirection: "row",
@@ -175,7 +170,7 @@ const HomeScreen = () => {
             <FontAwesome
               name="search"
               size={24}
-              color="#72B4BE"
+              color="#5e17eb"
               style={{ marginRight: 10 }}
             />
             <TextInput
@@ -220,7 +215,7 @@ const HomeTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarIndicatorStyle: { backgroundColor: "#77B4BE" }, 
+        tabBarIndicatorStyle: { backgroundColor: "#ff914d" },
       }}
     >
       <Tab.Screen name="Emergency" component={HomeScreen} />

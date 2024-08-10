@@ -9,7 +9,7 @@ import { router } from "expo-router";
 const DATA = [
   {
     id: 1,
-    date: "2 June 2023",
+    date: "2 June 2024",
     time: "11:38",
     startTime: "11:21",
     endTime: "12:30",
@@ -19,13 +19,41 @@ const DATA = [
   },
   {
     id: 2,
-    date: "2 June 2023",
-    time: "11:38",
+    date: "23 Jan 2024",
+    time: "01:08",
     startTime: "11:21",
     endTime: "12:30",
     from: "Megenagna",
-    to: "Mexico",
+    to: "Yerer",
     isCancelled: "Cancelled",
+  },
+  {
+    id: 3,
+    date: "1 Dec 2023",
+    time: "07:42",
+    startTime: "11:21",
+    endTime: "12:30",
+    from: "Megenagna",
+    to: "Dembel",
+  },
+  {
+    id: 4,
+    date: "11 Nov 2023",
+    time: "07:42",
+    startTime: "11:21",
+    endTime: "12:30",
+    from: "Megenagna",
+    to: "Shiro Meda",
+    isCancelled: "Cancelled",
+  },
+  {
+    id: 5,
+    date: "29 Sep 2023",
+    time: "07:42",
+    startTime: "11:21",
+    endTime: "12:30",
+    from: "Megenagna",
+    to: "Stadium",
   },
 ];
 
@@ -50,7 +78,7 @@ const HistoryList = ({
       <View
         style={{
           borderBottomWidth: 1,
-          borderColor: "#72B4BE",
+          borderColor: "#5e17eb",
           marginVertical: 10,
         }}
       />
@@ -61,7 +89,7 @@ const HistoryList = ({
         </View>
 
         <View className="flex-[] flex items-center gap-y-1">
-          <View className="bg-[#72B4BE] w-2 h-2 rounded-full " />
+          <View className="bg-[#5e17eb] w-2 h-2 rounded-full " />
           <View className="w-[2px] h-11  bg-gray-500" />
           <MaterialCommunityIcons
             name="arrow-down-drop-circle-outline"

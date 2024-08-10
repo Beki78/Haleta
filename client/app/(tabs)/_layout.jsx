@@ -1,10 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome } from "@expo/vector-icons";
-import HomeScreen from "./home"; 
-import HistoryScreen from "./history"; 
-import NewsScreen from "./News"; 
-import ProfileScreen from "./profile"; 
+import HomeScreen from "./home";
+import HistoryScreen from "./history";
+import NewsScreen from "./News";
+import ProfileScreen from "./profile";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -12,8 +12,8 @@ const TabsLayout = () => {
   return (
     <BottomTab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "#000",
-        tabBarActiveBackgroundColor: "#f4fffe",
+        tabBarActiveTintColor: "#5e17eb", // Color for the active tab
+        tabBarInactiveTintColor: "gray", // Color for the inactive tabs
         tabBarLabelStyle: { fontSize: 13 },
       }}
     >
@@ -23,8 +23,8 @@ const TabsLayout = () => {
         options={{
           headerShown: false,
           title: "Home",
-          tabBarIcon: () => (
-            <FontAwesome name="home" size={30} color="#72B4BE" />
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="home" size={30} color={color} />
           ),
         }}
       />
@@ -34,8 +34,8 @@ const TabsLayout = () => {
         options={{
           headerShown: false,
           title: "History",
-          tabBarIcon: () => (
-            <FontAwesome name="history" size={24} color="#72B4BE" />
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="history" size={24} color={color} />
           ),
         }}
       />
@@ -44,11 +44,11 @@ const TabsLayout = () => {
         component={NewsScreen}
         options={{
           tabBarBadge: "9+",
-          tabBarBadgeStyle: { backgroundColor: "red", fontSize: 9 },
+          tabBarBadgeStyle: { backgroundColor: "red", fontSize: 10 },
           headerShown: false,
           title: "News",
-          tabBarIcon: () => (
-            <FontAwesome name="newspaper-o" size={24} color="#72B4BE" />
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="newspaper-o" size={24} color={color} />
           ),
         }}
       />
@@ -58,8 +58,8 @@ const TabsLayout = () => {
         options={{
           headerShown: false,
           title: "Profile",
-          tabBarIcon: () => (
-            <FontAwesome name="user-circle-o" size={24} color="#72B4BE" />
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="user-circle-o" size={24} color={color} />
           ),
         }}
       />

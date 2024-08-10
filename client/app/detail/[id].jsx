@@ -67,11 +67,11 @@ const More = () => {
       />
       <View className="">
         <View className="flex flex-row gap-4 ml-4 mt-10">
-          <FontAwesome name="phone" size={32} color="#72B4BE" />
+          <FontAwesome name="phone" size={32} color="#ff914d" />
           <Text
             className="text-lg"
             onPress={() => makePhoneCall(parsedItem.phone)}
-            style={{ color: '#007bff' }} // Optional: Change color to indicate it's clickable
+            style={{ color: "#007bff" }} // Optional: Change color to indicate it's clickable
           >
             {parsedItem.phone}
           </Text>
@@ -84,7 +84,7 @@ const More = () => {
           }}
         />
         <View className="flex flex-row gap-4 ml-4 mt-4">
-          <FontAwesome5 name="hospital-symbol" size={27} color="#72B4BE" />
+          <FontAwesome5 name="hospital-symbol" size={27} color="#ff914d" />
           <Text
             className="text-lg flex-1 flex-shrink"
             style={{ flexShrink: 1 }}
@@ -103,7 +103,7 @@ const More = () => {
           <MaterialCommunityIcons
             name="map-marker-distance"
             size={32}
-            color="#72B4BE"
+            color="#ff914d"
           />
           <Text
             className="text-lg flex-1 flex-shrink"
@@ -121,7 +121,7 @@ const More = () => {
           }}
         />
         <View className="flex flex-row gap-4 ml-4 mt-4">
-          <FontAwesome className="" name="money" size={28} color="#72B4BE" />
+          <FontAwesome className="" name="money" size={28} color="#ff914d" />
           <Text className="text-lg">{parsedItem.money} ETB</Text>
         </View>
       </View>

@@ -14,7 +14,7 @@ const Button = () => {
 };
 
 function LogoTitle() {
-  return <Image className="w-14 h-14 " source={Logo} />;
+  return <Image className="w-14 h-14 mb-1 ml-3" source={Logo} />;
 }
 
 const RootLayout = () => {
@@ -39,7 +39,12 @@ const RootLayout = () => {
             headerTitle: (props) => <LogoTitle {...props} />,
             headerRight: () => (
               <TouchableOpacity>
-                <FontAwesome name="bell-o" size={24} color="#72B4BE" onPress={bellHandle} />
+                <FontAwesome
+                  name="bell-o"
+                  size={24}
+                  color="#5e17eb"
+                  onPress={bellHandle}
+                />
               </TouchableOpacity>
             ),
           }}

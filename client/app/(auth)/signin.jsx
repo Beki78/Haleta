@@ -23,13 +23,7 @@ const Signin = () => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const handleSignIn = () => {
-    if (phone === superAdminPhone && password === superAdminPassword) {
-      router.push("/home");
-      setPhone(""); // Clear the phone input
-      setPassword(""); // Clear the password input
-    } else {
-      Alert.alert("Error", "Invalid phone number or password");
-    }
+    router.push("/(tabs)/home")
   };
 
   return (

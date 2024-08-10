@@ -17,7 +17,7 @@ const Profile = () => {
       <View className="mx-7 my-6 p-7 bg-white shadow-sm shadow-slate-300 rounded-md">
         {/* Phone Number */}
         <View className="flex flex-row gap-3 items-center">
-          <FontAwesome name="phone" size={24} color="#72B4BE" />
+          <FontAwesome name="phone" size={24} color="#ff914d" />
           <Text>0912345678</Text>
         </View>
         <View
@@ -30,7 +30,7 @@ const Profile = () => {
 
         {/* Address */}
         <View className="flex flex-row gap-3 items-center">
-          <FontAwesome name="address-book" size={24} color="#72B4BE" />
+          <FontAwesome name="address-book" size={24} color="#ff914d" />
           <Text>Addis Ababa, Et</Text>
         </View>
         <View
@@ -43,7 +43,7 @@ const Profile = () => {
 
         {/* Medical History */}
         <View className="flex flex-row gap-3 items-center">
-          <Octicons name="heart" size={24} color="#72B4BE" />
+          <Octicons name="heart" size={24} color="#ff914d" />
           <Text>Medical History: No known conditions</Text>
         </View>
         <View
@@ -55,7 +55,7 @@ const Profile = () => {
         />
         {/* Emergency Contact */}
         <View className="flex flex-row gap-3 items-center">
-          <MaterialIcons name="contact-emergency" size={26} color="#72B4BE" />
+          <MaterialIcons name="contact-emergency" size={26} color="#ff914d" />
           <Text>Emergency Contact: 0912345679</Text>
         </View>
         <View
@@ -68,7 +68,7 @@ const Profile = () => {
 
         {/* Insurance Information */}
         <View className="flex flex-row gap-3 items-center">
-          <FontAwesome name="shield" size={24} color="#72B4BE" />
+          <FontAwesome name="shield" size={24} color="#ff914d" />
           <Text>Insurance: ABC Health Insurance</Text>
         </View>
         <View
