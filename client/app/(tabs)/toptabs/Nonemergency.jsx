@@ -10,53 +10,55 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from "react-native";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import Button from "../../../components/Button";
 import regularAuto from "../../../assets/images/svg/regular_automobile-removebg-preview.png";
 import vipAuto from "../../../assets/images/svg/vip_automobile-removebg-preview.png";
 import basicAmbu from "../../../assets/images/svg/basic_ambulance-removebg-preview.png";
-import AdvanceAmbu from "../../../assets/images/svg/advanced_ambulance-removebg-preview.png";
-import { router } from "expo-router";
-import Transport from "../../Transportation/Transport";
+import advanceAmbu from "../../../assets/images/svg/advanced_ambulance-removebg-preview.png";
+
+const VEHICLES = [
+  { id: "1", name: "Regular Auto", image: regularAuto },
+  { id: "2", name: "VIP Auto", image: vipAuto },
+  { id: "3", name: "Basic Ambulance", image: basicAmbu },
+  { id: "4", name: "Advanced Ambulance", image: advanceAmbu },
+];
 
 const DATA = [
   {
     id: "1",
     type: "Pregnant Lady Transportation",
     image: regularAuto,
-    description:
-      "NEMT is best for you if you need a safe, secure and reliable transport service for your antenatal pregnancy care followups.",
+    description: "Safe and reliable transport for antenatal care follow-ups.",
   },
   {
     id: "2",
     type: "Dialysis Transportation",
     image: vipAuto,
-    description:
-      "This service is most suited for your dialysis appointments, providing safe and timely transportation.",
+    description: "Timely and safe transport suited for dialysis appointments.",
   },
   {
     id: "3",
     type: "Disability Transportation",
     image: basicAmbu,
     description:
-      "People having physical, cognitive, mental issues and developmental limitations can comfortably use our vehicles. Our vans are well-fitted with wheelchair, seats and paramedic/nurse to attend the clients to their destinations.",
+      "Transport for individuals with physical, cognitive equipped with wheelchairs and paramedics.",
   },
   {
     id: "4",
     type: "Seniors Transportation",
-    image: AdvanceAmbu,
+    image: advanceAmbu,
     description:
-      "This service is designed for elderly individuals with chronic medical illnesses like diabetes and hypertension. We provide a secure and comfortable transport service.",
+      "Comfortable transport for elderly individuals with chronic conditions.",
   },
 ];
 
 
-const Item = ({ title, price, image, description, onPress }) => (
+const Item = ({ title, image, description, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.itemContainer}>
     <Text style={styles.itemTitle}>{title}</Text>
     <View style={styles.itemContent}>
       <Image resizeMode="contain" style={styles.image} source={image} />
-      
     </View>
     <Text style={styles.itemDescription}>{description}</Text>
   </TouchableOpacity>
@@ -69,7 +71,7 @@ const Nonemergency = () => {
   const [error, setError] = useState(null);
 
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["70%"], []);
+  const snapPoints = useMemo(() => ["80%"], []);
 
   const handleSubmit = () => {
     if (!departureArea || !hospitalArea) {
@@ -79,7 +81,7 @@ const Nonemergency = () => {
     setError(null);
     Alert.alert(
       "Submission Successful",
-      `Vehicle: ${selectedVehicle.type}\nDeparture Area: ${departureArea}\nHospital Area: ${hospitalArea}`,
+      `Vehicle: ${selectedVehicle.name}\nDeparture Area: ${departureArea}\nHospital Area: ${hospitalArea}`,
       [{ text: "OK" }]
     );
     setDepartureArea("");
@@ -90,6 +92,10 @@ const Nonemergency = () => {
   const handleOpenBottomSheet = (item) => {
     setSelectedVehicle(item);
     bottomSheetRef.current.expand();
+  };
+
+  const handleVehicleSelect = (vehicle) => {
+    setSelectedVehicle(vehicle);
   };
 
   const renderBackdrop = useCallback(
@@ -134,10 +140,9 @@ const Nonemergency = () => {
             renderItem={({ item }) => (
               <Item
                 title={item.type}
-                price={item.price}
                 image={item.image}
                 description={item.description}
-                onPress={() => router.push("Transportation/Transport")}
+                onPress={() => handleOpenBottomSheet(item)}
               />
             )}
             keyExtractor={(item) => item.id}
@@ -149,6 +154,8 @@ const Nonemergency = () => {
           enablePanDownToClose={true}
           snapPoints={snapPoints}
           backdropComponent={renderBackdrop}
+          activeOffsetX={[-999, 999]}
+          activeOffsetY={[-5, 5]}
           onChange={(index) => {
             if (index === -1) {
               setSelectedVehicle(null);
@@ -157,35 +164,75 @@ const Nonemergency = () => {
             }
           }}
         >
-          <View style={styles.sheetContent}>
-            {selectedVehicle && (
-              <>
-                <Text
-                  className="text-center text-2xl font-bold my-4"
-                  style={styles.inputLabel}
-                >
-                  {selectedVehicle.type}
-                </Text>
-                <Text style={{}} className="font-light pb-3 text-center ">
-                  {selectedVehicle.description}
-                </Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Enter area of departure"
-                  value={departureArea}
-                  onChangeText={setDepartureArea}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Enter hospital name"
-                  value={hospitalArea}
-                  onChangeText={setHospitalArea}
-                />
-                {error && <Text style={styles.errorText}>{error}</Text>}
-                <Button title={"Book"} handlePress={handleSubmit} />
-              </>
-            )}
-          </View>
+          <BottomSheetScrollView style={styles.contentContainer}>
+            <View style={styles.sheetContent}>
+              {/* Input Fields */}
+              <TextInput
+                style={styles.input}
+                placeholder="Enter area of departure"
+                value={departureArea}
+                onChangeText={setDepartureArea}
+              />
+
+              <TextInput
+                style={styles.input}
+                placeholder="Enter hospital name"
+                value={hospitalArea}
+                onChangeText={setHospitalArea}
+              />
+              {/* Error and Submit Button */}
+              {error && <Text style={styles.errorText}>{error}</Text>}
+
+              {selectedVehicle && (
+                <>
+                  {/* Vehicle Options */}
+                  <FlatList
+                    data={VEHICLES}
+                    horizontal={true}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity
+                        className="h-52 p-4 rounded-md bg-[#f4f0fe]"
+                        style={[
+                          styles.vehicleOption,
+                          selectedVehicle?.id === item.id &&
+                            styles.selectedVehicle,
+                        ]}
+                        onPress={() => handleVehicleSelect(item)}
+                      >
+                        <Image
+                          resizeMode="contain"
+                          style={styles.vehicleImage}
+                          source={item.image}
+                        />
+                        <Text>{item.name}</Text>
+                      </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => item.id}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ paddingHorizontal: 16 }}
+                  />
+
+                  {/* Description of the Selected Vehicle */}
+                  {selectedVehicle && (
+                    <>
+                      <Text className="text-lg font-bold">
+                        Vehicle Description
+                      </Text>
+                      <Text className="text-[15px]">
+                        {
+                          DATA.find(
+                            (dataItem) => dataItem.id === selectedVehicle.id
+                          ).description
+                        }
+                      </Text>
+                    </>
+                  )}
+
+                  <Button title={"Book"} handlePress={handleSubmit} />
+                </>
+              )}
+            </View>
+          </BottomSheetScrollView>
         </BottomSheet>
       </View>
     </KeyboardAvoidingView>
@@ -246,19 +293,43 @@ const styles = StyleSheet.create({
   sheetContent: {
     flex: 1,
     alignItems: "center",
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical:7,
+  },
+  inputLabel: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  vehicleOption: {
+    marginHorizontal: 10,
+    height: 150,
+    alignItems: "center",
+  },
+  selectedVehicle: {
+    borderColor: "#5e17eb",
+    borderWidth: 2,
+    borderRadius: 10,
+    marginBottom: 30,
+  },
+  vehicleImage: {
+    width: 100,
+    height: 80,
+    marginBottom: 15,
   },
   input: {
-    borderColor: "#72B4BE",
-    borderWidth: 1,
-    padding: 8,
-    borderRadius: 8,
-    marginBottom: 16,
     width: "100%",
+    height: 50,
+    paddingHorizontal: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    fontSize: 16,
   },
   errorText: {
     color: "red",
-    marginBottom: 8,
+    marginBottom: 10,
   },
 });
 
