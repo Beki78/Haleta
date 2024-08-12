@@ -5,6 +5,7 @@ import {
   Image,
   FlatList,
   Dimensions,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, router } from "expo-router";
@@ -14,7 +15,7 @@ import Logo1 from "../assets/images/svg/undraw_booking_re_gw4j.png";
 import Logo2 from "../assets/images/svg/undraw_my_location_re_r52x.png";
 import Button from "../components/Button";
 import "@expo/metro-runtime";
-import { StatusBar } from "expo-status-bar";
+
 
 const onboardingData = [
   {
@@ -78,7 +79,7 @@ const Footer = ({ currentIndex }) => {
           <View
             key={data.id}
             className={`p-1 rounded-full ml-2 ${
-              currentIndex === index ? "bg-[#72B4BE]" : "bg-[#3E4958]"
+              currentIndex === index ? "bg-[#5e17eb]" : "bg-[#3E4958]"
             }`}
           />
         ))}
@@ -127,7 +128,7 @@ const Main = () => {
         style={"mb-32"}
         handlePress={() => router.push("signin")}
       />
-      <StatusBar style="dark" />
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   );
 };

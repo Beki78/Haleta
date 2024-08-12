@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
+  ToastAndroid,
 } from "react-native";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import Button from "../../../components/Button";
@@ -16,56 +17,79 @@ import regularAuto from "../../../assets/images/svg/regular_automobile-removebg-
 import vipAuto from "../../../assets/images/svg/vip_automobile-removebg-preview.png";
 import basicAmbu from "../../../assets/images/svg/basic_ambulance-removebg-preview.png";
 import advanceAmbu from "../../../assets/images/svg/advanced_ambulance-removebg-preview.png";
+import EmergencySer from "../../../assets/images/svg/emergencyservice.jpg"
+import DisabilitySer from "../../../assets/images/svg/disabilityservice.jpg"
+import DiyalsisSer from "../../../assets/images/svg/diyalisisservice.jpg"
 
 const VEHICLES = [
-  { id: "1", name: "Regular Auto", image: regularAuto },
-  { id: "2", name: "VIP Auto", image: vipAuto },
-  { id: "3", name: "Basic Ambulance", image: basicAmbu },
-  { id: "4", name: "Advanced Ambulance", image: advanceAmbu },
+  {
+    id: "1",
+    name: "Regular Auto",
+    image: regularAuto,
+    description: "A standard vehicle suitable for regular transport needs.",
+  },
+  {
+    id: "2",
+    name: "VIP Auto",
+    image: vipAuto,
+    description:
+      "A premium vehicle offering VIP transport services with added comfort.",
+  },
+  {
+    id: "3",
+    name: "Basic Ambulance",
+    image: basicAmbu,
+    description:
+      "A basic ambulance equipped with essential medical equipment for emergencies.",
+  },
+  {
+    id: "4",
+    name: "Advanced Ambulance",
+    image: advanceAmbu,
+    description:
+      "An advanced ambulance equipped with state-of-the-art medical equipment and staff.",
+  },
 ];
+
 
 const DATA = [
   {
     id: "1",
-    type: "Pregnant Lady Transportation",
-    image: regularAuto,
-    description: "Safe and reliable transport for antenatal care follow-ups.",
+    type: "Emergency transportation service",
+    image: EmergencySer,
+    description:
+      "Emergency transportation service is a service given to individuals who are in severe and life-threatening condition. Our company provides the necessary medical assistance using the lifesaving equipment, well-skilled paramedic and driver to avoid death or further deterioration until the client reaches to the medical site.",
   },
   {
     id: "2",
-    type: "Dialysis Transportation",
-    image: vipAuto,
-    description: "Timely and safe transport suited for dialysis appointments.",
+    type: "Disability Transportation",
+    image: DisabilitySer,
+    description:
+      "People having physical, cognitive, mental issues and developmental limitation can comfortably use our vehicles. Our vans are well-fitted with wheelchair, seats and paramedic/nurse to attend the clients to their destinations.",
   },
   {
     id: "3",
-    type: "Disability Transportation",
-    image: basicAmbu,
+    type: "Transportation to Dialysis centers",
+    image: DiyalsisSer,
     description:
-      "Transport for individuals with physical, cognitive equipped with wheelchairs and paramedics.",
-  },
-  {
-    id: "4",
-    type: "Seniors Transportation",
-    image: advanceAmbu,
-    description:
-      "Comfortable transport for elderly individuals with chronic conditions.",
+      "Clients having doctors’ appointment or dialysis treatment can assess our company’s transportation service. Our vans are wheelchair mounted that can assist clients while moving to and from their treatment centers.",
   },
 ];
 
 
 const Item = ({ title, image, description, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.itemContainer}>
-    <Text style={styles.itemTitle}>{title}</Text>
+    <Text className="text-lg my-3 text-center font-bold">{title}</Text>
     <View style={styles.itemContent}>
-      <Image resizeMode="contain" style={styles.image} source={image} />
+      <Image resizeMode="cover" style={styles.image} className="w-full h-52" source={image} />
     </View>
-    <Text style={styles.itemDescription}>{description}</Text>
+    <Text className="my-4 text-slate-700">{description}</Text>
   </TouchableOpacity>
 );
 
 const Nonemergency = () => {
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [selectedService, setSelectedService] = useState(null); // Separate state for service type
+  const [selectedVehicle, setSelectedVehicle] = useState(null); // Separate state for vehicle
   const [departureArea, setDepartureArea] = useState("");
   const [hospitalArea, setHospitalArea] = useState("");
   const [error, setError] = useState(null);
@@ -74,28 +98,43 @@ const Nonemergency = () => {
   const snapPoints = useMemo(() => ["80%"], []);
 
   const handleSubmit = () => {
-    if (!departureArea || !hospitalArea) {
-      setError("Please fill in both fields.");
+    if (!departureArea || !hospitalArea || !selectedVehicle) {
+      setError("Please fill in all fields and select a vehicle.");
       return;
     }
     setError(null);
+
     Alert.alert(
       "Submission Successful",
-      `Vehicle: ${selectedVehicle.name}\nDeparture Area: ${departureArea}\nHospital Area: ${hospitalArea}`,
-      [{ text: "OK" }]
+      `Service: ${selectedService?.type || ""}\nVehicle: ${
+        selectedVehicle?.name || ""
+      }\nDeparture Area: ${departureArea}\nHospital Area: ${hospitalArea}`,
+      [
+        {
+          text: "OK",
+          onPress: () =>
+            ToastAndroid.show(
+              "Your ambulance will arrive soon!",
+              ToastAndroid.SHORT
+            ),
+        },
+      ]
     );
+
     setDepartureArea("");
     setHospitalArea("");
+    setSelectedVehicle(null); // Clear the selected vehicle after submission
     bottomSheetRef.current.close();
   };
 
-  const handleOpenBottomSheet = (item) => {
-    setSelectedVehicle(item);
+
+  const handleOpenBottomSheet = (service) => {
+    setSelectedService(service); // Set the selected service
     bottomSheetRef.current.expand();
   };
 
   const handleVehicleSelect = (vehicle) => {
-    setSelectedVehicle(vehicle);
+    setSelectedVehicle(vehicle); // Set the selected vehicle
   };
 
   const renderBackdrop = useCallback(
@@ -158,6 +197,7 @@ const Nonemergency = () => {
           activeOffsetY={[-5, 5]}
           onChange={(index) => {
             if (index === -1) {
+              setSelectedService(null);
               setSelectedVehicle(null);
               setDepartureArea("");
               setHospitalArea("");
@@ -183,15 +223,16 @@ const Nonemergency = () => {
               {/* Error and Submit Button */}
               {error && <Text style={styles.errorText}>{error}</Text>}
 
-              {selectedVehicle && (
+              {selectedService && (
                 <>
+
                   {/* Vehicle Options */}
                   <FlatList
                     data={VEHICLES}
                     horizontal={true}
                     renderItem={({ item }) => (
                       <TouchableOpacity
-                        className="h-52 p-4 rounded-md bg-[#f4f0fe]"
+                        className="h-52 p-4 rounded-md shadow-md shadow-[#c1bbce]"
                         style={[
                           styles.vehicleOption,
                           selectedVehicle?.id === item.id &&
@@ -218,12 +259,8 @@ const Nonemergency = () => {
                       <Text className="text-lg font-bold">
                         Vehicle Description
                       </Text>
-                      <Text className="text-[15px]">
-                        {
-                          DATA.find(
-                            (dataItem) => dataItem.id === selectedVehicle.id
-                          ).description
-                        }
+                      <Text className="text-[15px] text-slate-700">
+                        {selectedVehicle?.description}
                       </Text>
                     </>
                   )}
@@ -238,6 +275,7 @@ const Nonemergency = () => {
     </KeyboardAvoidingView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingTop: 16, backgroundColor: "#fff" },
@@ -268,28 +306,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  itemTitle: {
-    textAlign: "center",
-    fontSize: 18,
-    fontWeight: "semibold",
-    marginBottom: 8,
-  },
+
   itemContent: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  image: {
-    width: 80,
-    height: 80,
-    marginRight: 10,
-  },
-  itemDescription: {
-    fontSize: 14,
-    color: "#666",
-    marginTop: 8,
-    textAlign: "justify",
-  },
+
+ 
   sheetContent: {
     flex: 1,
     alignItems: "center",

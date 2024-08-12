@@ -18,7 +18,7 @@ import Filter from "../../components/Filter";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import NEMT from "./toptabs/Nonemergency"
-import homeamb from "../../assets/images/svg/homeamb.png"
+import homeamb from "../../assets/images/svg/homeamb.jpg"
 
 
 const { width } = Dimensions.get("window");
@@ -143,11 +143,11 @@ const HomeScreen = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: 12 }}>
         <Image
-          className="w-full h-40 mb-3"
-          resizeMode="contain"
+          className="w-full mt-3 h-48 mb-4 "
+          resizeMode="cover"
           source={homeamb}
         />
         <View
@@ -206,7 +206,7 @@ const HomeScreen = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

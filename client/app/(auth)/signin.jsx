@@ -5,6 +5,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  StatusBar,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -66,6 +67,7 @@ const Signin = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   );
 };

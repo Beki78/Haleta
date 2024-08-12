@@ -6,7 +6,7 @@ const DATA = [
   {
     id: 1,
     image: Image1,
-    hospital: "Black Lion",
+    hospital: "Black Lion Hospital",
     phone: "0909890837",
     money: "1034",
     latitude: 9.0199829,

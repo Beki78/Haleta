@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, StatusBar } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../../assets/images/svg/logo.png";
@@ -61,6 +61,7 @@ const Signup = () => {
           </Link>
         </View>
       </View>
+      <StatusBar barStyle="dark-content"/>
     </SafeAreaView>
   );
 };
