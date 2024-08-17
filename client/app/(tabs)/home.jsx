@@ -8,72 +8,71 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome, Ionicons, Entypo } from "@expo/vector-icons";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import DATA from "../../lib/data";
 import * as Location from "expo-location";
 import Filter from "../../components/Filter";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import NEMT from "./toptabs/Nonemergency"
-import homeamb from "../../assets/images/svg/homeamb.jpg"
-
+import NEMT from "./toptabs/Nonemergency";
+import homeamb from "../../assets/images/svg/homeamb.jpg";
+import { getDistance } from "geolib";
 
 const { width } = Dimensions.get("window");
 
-const Item = ({ hospital, phone, money, image, handlePress }) => {
-  return (
-    <TouchableOpacity
-      onPress={handlePress}
-      activeOpacity={0.5}
+const Item = ({ hospital, phone, money, image, handlePress }) => (
+  <TouchableOpacity
+    onPress={handlePress}
+    activeOpacity={0.5}
+    style={{
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      backgroundColor: "#fff",
+      margin: 8,
+      flex: 1,
+      borderRadius: 8,
+      overflow: "hidden",
+    }}
+  >
+    <Image
+      source={image}
       style={{
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        backgroundColor: "#fff",
-        margin: 8,
-        flex: 1,
-        borderRadius: 8,
-        overflow: "hidden",
+        width: "100%",
+        height: 150,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
       }}
-    >
-      <Image
-        source={image}
-        style={{
-          width: "100%",
-          height: 150,
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
-        }}
-        resizeMode="cover"
-      />
-      <View style={{ padding: 10 }}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Entypo name="location-pin" size={24} color="#ff914d" />
-          <Text numberOfLines={1} style={{ paddingRight: 10, color: "#666" }}>
-            {hospital}
-          </Text>
-        </View>
-        <View
-          style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
-        >
-          <FontAwesome name="phone" size={20} color="#ff914d" />
-          <Text style={{ marginLeft: 10, color: "#666" }}>{phone}</Text>
-        </View>
-        <View
-          style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
-        >
-          <FontAwesome name="money" size={18} color="#ff914d" />
-          <Text style={{ marginLeft: 10, color: "#666" }}>{money} ETB</Text>
-        </View>
+      resizeMode="cover"
+    />
+    <View style={{ padding: 10 }}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Entypo name="location-pin" size={24} color="#ff914d" />
+        <Text numberOfLines={1} style={{ paddingRight: 10, color: "#666" }}>
+          {hospital}
+        </Text>
       </View>
-    </TouchableOpacity>
-  );
-};
+      <View
+        style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
+      >
+        <FontAwesome name="phone" size={20} color="#ff914d" />
+        <Text style={{ marginLeft: 10, color: "#666" }}>{phone}</Text>
+      </View>
+      <View
+        style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
+      >
+        <FontAwesome name="money" size={18} color="#ff914d" />
+        <Text style={{ marginLeft: 10, color: "#666" }}>{money} ETB</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -81,8 +80,33 @@ const HomeScreen = () => {
   const [isNearbyActive, setIsNearbyActive] = useState(false);
   const [isButtonActive, setIsButtonActive] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [location, setLocation] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  
+  useEffect(() => {
+    const fetchLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Location Permission Denied",
+          "Please grant location permissions."
+        );
+        setLoading(false);
+        return;
+      }
+
+      try {
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        setLocation(currentLocation);
+      } catch (error) {
+        Alert.alert("Error", "Unable to fetch location.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLocation();
+  }, []);
 
   useEffect(() => {
     if (searchQuery === "") {
@@ -112,6 +136,51 @@ const HomeScreen = () => {
   };
 
   const nearByHandle = () => {
+    if (!location) {
+      Alert.alert(
+        "Location Services Disabled",
+        "Please enable location services to use this feature."
+      );
+      return;
+    }
+
+    const hospitalsWithDistance = DATA.map((hospital) => {
+      if (
+        typeof hospital.latitude !== "number" ||
+        typeof hospital.longitude !== "number"
+      ) {
+        return null;
+      }
+
+      const distanceInKm =
+        getDistance(
+          {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          },
+          {
+            latitude: hospital.latitude,
+            longitude: hospital.longitude,
+          }
+        ) / 1000;
+
+      return {
+        ...hospital,
+        distance: distanceInKm.toFixed(2),
+      };
+    }).filter((hospital) => hospital !== null);
+
+    if (hospitalsWithDistance.length === 0) {
+      Alert.alert("No Hospitals", "No valid hospitals found.");
+      return;
+    }
+
+    const sortedHospitals = hospitalsWithDistance.sort(
+      (a, b) => a.distance - b.distance
+    );
+
+    setFilteredData(sortedHospitals);
+    setIsNearbyActive(true);
     setIsButtonActive("Near by");
   };
 
@@ -132,7 +201,7 @@ const HomeScreen = () => {
         phone={item.phone}
         money={item.money}
         image={item.image}
-        handlePress={() => handlePress(item)}  
+        handlePress={() => handlePress(item)}
       />
     );
   };
@@ -142,11 +211,15 @@ const HomeScreen = () => {
     dataToRender.push({ id: "placeholder", placeholder: true });
   }
 
+  if (loading) {
+    return <ActivityIndicator size="large"  color="#5e17eb" />;
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: 12 }}>
         <Image
-          className="w-full mt-3 h-48 mb-4 "
+          className="w-full mt-3 h-48 mb-4"
           resizeMode="cover"
           source={homeamb}
         />
@@ -192,36 +265,43 @@ const HomeScreen = () => {
             buttonHandle={lowcostHandle}
             activeStyle={isButtonActive === "Low Cost"}
           />
-          {/* <Filter
+          <Filter
             title="Near by"
             buttonHandle={nearByHandle}
             activeStyle={isButtonActive === "Near by"}
-          /> */}
+          />
         </ScrollView>
       </View>
       <FlatList
         data={dataToRender}
-        numColumns={2}
-        contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={{
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+        }}
+        style={{ flex: 1, marginTop: 8 }}
       />
     </View>
   );
 };
 
 const Tab = createMaterialTopTabNavigator();
-const HomeTabs = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarIndicatorStyle: { backgroundColor: "#ff914d" },
-      }}
-    >
-      <Tab.Screen name="Emergency" component={HomeScreen} />
-      <Tab.Screen name="NEMT" component={NEMT} />
-    </Tab.Navigator>
-  );
-};
 
-export default HomeTabs;
+export default function App() {
+  return (
+      <Tab.Navigator
+  screenOptions={{
+    tabBarIndicatorStyle: { backgroundColor: "#5e17eb" },
+    tabBarLabelStyle: { fontSize: 12 },
+    tabBarStyle: { backgroundColor: "#fff", elevation: 0, shadowOpacity: 0 },
+    tabBarContentContainerStyle: { marginTop: 0 }
+  }}
+>
+
+        <Tab.Screen name="Emergency" component={HomeScreen} />
+        <Tab.Screen name="NEMT" component={NEMT} />
+      </Tab.Navigator>
+  );
+}

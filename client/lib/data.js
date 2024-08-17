@@ -107,7 +107,11 @@ const DATA = [
     image: Image1,
     hospital: "Anania Mothers & Children Specialized Medical Center",
     phone: "0913001122",
-    money: "330",
+    money: "1030",
+    latitude: 8.9843817,
+    longitude: 38.7773389,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.0121,
   },
   {
     id: 11,
@@ -181,6 +185,10 @@ const DATA = [
     hospital: "Alatyon Primary Hospital",
     phone: "0913778899",
     money: "1310",
+    latitude: 8.9842807,
+    longitude: 38.7777389,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.0121,
   },
   {
     id: 18,

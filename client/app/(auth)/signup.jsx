@@ -1,26 +1,26 @@
-import { View, Text, ScrollView, Image, StatusBar } from "react-native";
+import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../../assets/images/svg/logo.png";
 import FormField from "../../components/FormField";
 import Button from "../../components/Button";
 import { Link, router } from "expo-router";
-import "@expo/metro-runtime";
-import createUser from "../../lib/appwrite";
-import test from "../../lib/appwrite.js";
-
-const submit = (userPhonenumber) => {
-  // console.log(userPhonenumber);
-  // // createUser(userPhonenumber);
-  // test()
-  router.push("otp/Otp");
-};
+import { createUser } from "../../lib/appwrite"; // Import the function
 
 const Signup = () => {
   const [userPhonenumber, setUserPhonenumber] = useState("");
 
   const handlePhoneChange = (value) => {
     setUserPhonenumber(value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await createUser(userPhonenumber);
+      router.push("otp/Otp");
+    } catch (error) {
+      Alert.alert("Error", "Failed to create user. Please try again.");
+    }
   };
 
   return (
@@ -52,7 +52,7 @@ const Signup = () => {
         <Button
           title={"Sign Up"}
           style={"mb-0"}
-          handlePress={() => submit(userPhonenumber)}
+          handlePress={handleSubmit} // Updated function call
         />
         <View className="justify-center gap-2 flex-row">
           <Text className="text-lg text-[#7b7b8b]">Don't have an account?</Text>
@@ -61,7 +61,7 @@ const Signup = () => {
           </Link>
         </View>
       </View>
-      <StatusBar barStyle="dark-content"/>
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   );
 };

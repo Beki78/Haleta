@@ -1,4 +1,10 @@
-import React, { useState, useRef, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+} from "react";
 import {
   View,
   StyleSheet,
@@ -11,15 +17,19 @@ import {
   KeyboardAvoidingView,
   ToastAndroid,
 } from "react-native";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetScrollView,
+} from "@gorhom/bottom-sheet";
+import { AntDesign } from "@expo/vector-icons"; // Import icon for arrows
 import Button from "../../../components/Button";
 import regularAuto from "../../../assets/images/svg/regular_automobile-removebg-preview.png";
 import vipAuto from "../../../assets/images/svg/vip_automobile-removebg-preview.png";
 import basicAmbu from "../../../assets/images/svg/basic_ambulance-removebg-preview.png";
 import advanceAmbu from "../../../assets/images/svg/advanced_ambulance-removebg-preview.png";
-import EmergencySer from "../../../assets/images/svg/emergencyservice.jpg"
-import DisabilitySer from "../../../assets/images/svg/disabilityservice.jpg"
-import DiyalsisSer from "../../../assets/images/svg/diyalisisservice.jpg"
+import EmergencySer from "../../../assets/images/svg/emergencyservice.jpg";
+import DisabilitySer from "../../../assets/images/svg/disabilityservice.jpg";
+import DiyalsisSer from "../../../assets/images/svg/diyalisisservice.jpg";
 
 const VEHICLES = [
   {
@@ -51,7 +61,6 @@ const VEHICLES = [
   },
 ];
 
-
 const DATA = [
   {
     id: "1",
@@ -76,12 +85,16 @@ const DATA = [
   },
 ];
 
-
 const Item = ({ title, image, description, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.itemContainer}>
     <Text className="text-lg my-3 text-center font-bold">{title}</Text>
     <View style={styles.itemContent}>
-      <Image resizeMode="cover" style={styles.image} className="w-full h-52" source={image} />
+      <Image
+        resizeMode="cover"
+        style={styles.image}
+        className="w-full h-52"
+        source={image}
+      />
     </View>
     <Text className="my-4 text-slate-700">{description}</Text>
   </TouchableOpacity>
@@ -89,11 +102,12 @@ const Item = ({ title, image, description, onPress }) => (
 
 const Nonemergency = () => {
   const [selectedService, setSelectedService] = useState(null); // Separate state for service type
-  const [selectedVehicle, setSelectedVehicle] = useState(null); // Separate state for vehicle
+  const [selectedVehicle, setSelectedVehicle] = useState(VEHICLES[0]); // Set default selected vehicle to the first one
   const [departureArea, setDepartureArea] = useState("");
   const [hospitalArea, setHospitalArea] = useState("");
   const [error, setError] = useState(null);
 
+  const flatListRef = useRef(null); // Ref for FlatList
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["80%"], []);
 
@@ -123,10 +137,9 @@ const Nonemergency = () => {
 
     setDepartureArea("");
     setHospitalArea("");
-    setSelectedVehicle(null); // Clear the selected vehicle after submission
+    setSelectedVehicle(VEHICLES[0]); // Reset to default vehicle after submission
     bottomSheetRef.current.close();
   };
-
 
   const handleOpenBottomSheet = (service) => {
     setSelectedService(service); // Set the selected service
@@ -153,6 +166,21 @@ const Nonemergency = () => {
     ),
     []
   );
+
+  const scrollToNext = () => {
+    flatListRef.current.scrollToOffset({
+      offset: 100 * (selectedVehicle.id % VEHICLES.length),
+      animated: true,
+    });
+  };
+
+  const scrollToPrevious = () => {
+    flatListRef.current.scrollToOffset({
+      offset:
+        (100 * (selectedVehicle.id - 2 + VEHICLES.length)) % VEHICLES.length,
+      animated: true,
+    });
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
@@ -198,7 +226,7 @@ const Nonemergency = () => {
           onChange={(index) => {
             if (index === -1) {
               setSelectedService(null);
-              setSelectedVehicle(null);
+              setSelectedVehicle(VEHICLES[0]);
               setDepartureArea("");
               setHospitalArea("");
             }
@@ -225,49 +253,60 @@ const Nonemergency = () => {
 
               {selectedService && (
                 <>
+                  {/* Scrollable Vehicle Options with Arrows */}
+                  <View style={styles.vehicleScrollContainer}>
+                    <TouchableOpacity
+                      onPress={scrollToPrevious}
+                      style={styles.arrowButton}
+                    >
+                      <AntDesign name="left" size={24} color="#5e17eb" />
+                    </TouchableOpacity>
 
-                  {/* Vehicle Options */}
-                  <FlatList
-                    data={VEHICLES}
-                    horizontal={true}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity
-                        className="h-52 p-4 rounded-md shadow-md shadow-[#c1bbce]"
-                        style={[
-                          styles.vehicleOption,
-                          selectedVehicle?.id === item.id &&
-                            styles.selectedVehicle,
-                        ]}
-                        onPress={() => handleVehicleSelect(item)}
-                      >
-                        <Image
-                          resizeMode="contain"
-                          style={styles.vehicleImage}
-                          source={item.image}
-                        />
-                        <Text>{item.name}</Text>
-                      </TouchableOpacity>
-                    )}
-                    keyExtractor={(item) => item.id}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{ paddingHorizontal: 16 }}
-                  />
+                    <FlatList
+                      ref={flatListRef}
+                      data={VEHICLES}
+                      horizontal={true}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity
+                          className="h-40 p-4 rounded-md shadow-md shadow-[#c1bbce]"
+                          style={[
+                            styles.vehicleOption,
+                            selectedVehicle?.id === item.id &&
+                              styles.selectedVehicle,
+                          ]}
+                          onPress={() => handleVehicleSelect(item)}
+                        >
+                          <Image
+                            resizeMode="contain"
+                            style={styles.vehicleImage}
+                            source={item.image}
+                          />
+                          <Text className="text-center">{item.name}</Text>
+                        </TouchableOpacity>
+                      )}
+                      keyExtractor={(item) => item.id}
+                      showsHorizontalScrollIndicator={false}
+                    />
 
-                  {/* Description of the Selected Vehicle */}
-                  {selectedVehicle && (
-                    <>
-                      <Text className="text-lg font-bold">
-                        Vehicle Description
-                      </Text>
-                      <Text className="text-[15px] text-slate-700">
-                        {selectedVehicle?.description}
-                      </Text>
-                    </>
-                  )}
-
-                  <Button title={"Book"} handlePress={handleSubmit} />
+                    <TouchableOpacity
+                      onPress={scrollToNext}
+                      style={styles.arrowButton}
+                    >
+                      <AntDesign name="right" size={24} color="#5e17eb" />
+                    </TouchableOpacity>
+                  </View>
+                  {/* Selected Vehicle Description */}
+                  <Text style={styles.selectedVehicleDescription}>
+                    {selectedVehicle?.description}
+                  </Text>
                 </>
               )}
+
+              <Button
+                title="Submit"
+                handlePress={handleSubmit}
+                containerStyle={{ marginTop: 20 }}
+              />
             </View>
           </BottomSheetScrollView>
         </BottomSheet>
@@ -276,84 +315,91 @@ const Nonemergency = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 16, backgroundColor: "#fff" },
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
   descriptionContainer: {
-    paddingHorizontal: 10,
+    marginBottom: 8,
   },
   descriptionText: {
-    fontSize: 15,
-    color: "#666",
-    marginBottom: 8,
-    textAlign: "justify",
+    fontSize: 16,
+    color: "#333",
   },
   headerText: {
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: "bold",
-    marginVertical: 7,
-    marginLeft: 10,
+    marginVertical: 10,
   },
   itemContainer: {
-    marginVertical: 8,
-    marginHorizontal: 30,
-    backgroundColor: "#f9f9f9",
+    marginBottom: 20,
+    padding: 12,
     borderRadius: 8,
-    padding: 16,
+    backgroundColor: "#f8f8f8",
     shadowColor: "#000",
+    shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowRadius: 4,
   },
-
   itemContent: {
-    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-    justifyContent: "space-between",
   },
-
- 
-  sheetContent: {
-    flex: 1,
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical:7,
-  },
-  inputLabel: {
-    fontSize: 20,
-    fontWeight: "bold",
+  image: {
+    width: "100%",
+    height: 200,
     marginBottom: 10,
   },
-  vehicleOption: {
-    marginHorizontal: 10,
-    height: 150,
-    alignItems: "center",
+  contentContainer: {
+    paddingHorizontal: 16,
   },
-  selectedVehicle: {
-    borderColor: "#5e17eb",
-    borderWidth: 2,
-    borderRadius: 10,
-    marginBottom: 30,
-  },
-  vehicleImage: {
-    width: 100,
-    height: 80,
-    marginBottom: 15,
+  sheetContent: {
+    marginTop: 16,
   },
   input: {
-    width: "100%",
     height: 50,
-    paddingHorizontal: 10,
-    borderColor: "#ccc",
+    borderColor: "#ddd",
     borderWidth: 1,
     borderRadius: 8,
-    marginBottom: 10,
-    fontSize: 16,
+    paddingHorizontal: 16,
+    marginBottom: 12,
   },
   errorText: {
     color: "red",
-    marginBottom: 10,
+    marginBottom: 8,
+  },
+  vehicleScrollContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  arrowButton: {
+    padding: 3,
+
+  },
+  vehicleOption: {
+    padding: 10,
+    backgroundColor: "#fff",
+    marginRight: 10,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: "transparent",
+  },
+  selectedVehicle: {
+    borderColor: "#3498db",
+  },
+  vehicleImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 5,
+  },
+  selectedVehicleDescription: {
+    marginVertical: 10,
+    fontSize: 16,
+    color: "#555",
+    textAlign: "center",
   },
 });
 
