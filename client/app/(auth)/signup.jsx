@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
+import { View, Text, Image, StatusBar, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../../assets/images/svg/logo.png";
@@ -8,23 +8,29 @@ import { Link, router } from "expo-router";
 import { createUser } from "../../lib/appwrite"; // Import the function
 
 const Signup = () => {
-  const [userPhonenumber, setUserPhonenumber] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [password, setPassword] = useState("");
 
   const handlePhoneChange = (value) => {
-    setUserPhonenumber(value);
+    setUserPhone(value);
+  };
+
+  const handlePasswordChange = (value) => {
+    setPassword(value);
   };
 
   const handleSubmit = async () => {
     try {
-      await createUser(userPhonenumber);
-      router.push("otp/Otp");
+      await createUser(userPhone, password);
+      // Redirect to SignIn page after successful signup
+      router.push("/otp");
     } catch (error) {
       Alert.alert("Error", "Failed to create user. Please try again.");
     }
   };
 
   return (
-    <SafeAreaView className="h-full mx-6 ">
+    <SafeAreaView className="h-full mx-6">
       <View className="min-h-[100vh] justify-center">
         <Image source={Logo} className="w-20 h-20" resizeMode="contain" />
         <Text className="text-2xl text-[#3E4958] font-bold my-4">
@@ -42,20 +48,21 @@ const Signup = () => {
           phoneCode={"yes"}
           phoneFieldStyle={"flex flex-row justify-center items-center"}
           state={handlePhoneChange}
-          value={userPhonenumber}
+          value={userPhone}
         />
         <FormField
           heading={"Password"}
           placeholder={"Password"}
           autoComplete={""}
+          secureTextEntry={true}
+          state={handlePasswordChange}
+          value={password}
         />
-        <Button
-          title={"Sign Up"}
-          style={"mb-0"}
-          handlePress={handleSubmit} // Updated function call
-        />
+        <Button title={"Sign Up"} style={"mb-0"} handlePress={handleSubmit} />
         <View className="justify-center gap-2 flex-row">
-          <Text className="text-lg text-[#7b7b8b]">Don't have an account?</Text>
+          <Text className="text-lg text-[#7b7b8b]">
+            Already have an account?
+          </Text>
           <Link href="/signin" className="text-lg text-[#3E4958]">
             Sign In
           </Link>
