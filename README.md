@@ -10,6 +10,7 @@ It is a mobile app that shows the nearest ambulance and other features.
 - Google map direction
 - Health news
 
+![Haleta Demo](/video_2024-09-14_21-36-37-ezgif.com-video-to-gif-converter.gif)
 
 
 ## Run Locally
